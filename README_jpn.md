@@ -6,20 +6,20 @@
 
 <p align="center"><a href="README.md">🇺🇸 English</a> | <a href="README_spa.md">🇪🇸 Español</a> | <a href="README_fra.md">🇫🇷 Français</a> | <a href="README_ita.md">🇮🇹 Italiano</a> | <a href="README_deu.md">🇩🇪 Deutsch</a> | <a href="README_zho.md">🇨🇳 中文</a> | 🇯🇵 <b>日本語</b> | <a href="README_por.md">🇵🇹 Português</a></p>
 
-### EH3D-VALIDATION-LAB：基準となるユースケースとシステムの回帰テストを備えたテスト環境として計画中。コードはまだありません。
+### EH3D-VALIDATION-LAB：PHOENIX ファミリーのテスト環境：冗長コピーを持つ基準ファイルのマニフェスト、分類された失敗、そして測定済みの率が下がらないことを保証するゲート。初期段階のコード。
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
-  <img src="https://img.shields.io/badge/Stack-Markdown%20%2B%20Python-blue.svg" alt="Markdown and Python">
+  <img src="https://img.shields.io/badge/Stack-Rust%20%2B%20Python-blue.svg" alt="Rust and Python">
   <img src="https://img.shields.io/badge/Languages-8-00E5FF.svg" alt="Languages">
-  <img src="https://img.shields.io/badge/Tests-3-2EA043.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-44-2EA043.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.0.1-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-scaffolding-FFB020.svg" alt="Maturity">
 </p>
 
 ---
 
-**正直さの確認 - 今日実際に動くもの：** 何も動いていません。EH3D-VALIDATION-LAB は計画段階にあるだけで、コードも独自のテストもなく、一度も実行されていません。あるのは、スイートの全リポジトリが持つ基本構成と、`docs/` に書かれた範囲、要件、依存関係、脅威モデル、決定事項だけです。
+**正直さの確認 - 今日実際に動くもの：** 小さな Rust ライブラリとコマンドラインで、基準ファイル群のチェックサム マニフェストを書き出して冗長コピーと照合し、すべての失敗に分類を必須とする結果ファイルを読み、ゲートによって実行結果をベースラインと比較します。独自のテストが 41 件あり、コンピューター上で通っています。使われたのは自身のテストが作ったデータだけで、実際のコーパスや実際の基準ファイル群では一度も使われていません。設計ファイルは読まず、参照ツールは実行せず、設計ツールの出力との比較もまだしません。ケース縮小ツール、不変条件のテスト、基準ファイルとの比較は存在しません。
 
 ---
 
@@ -31,8 +31,8 @@
 |---|---|
 | バージョン | `0.0.1` |
 | 成熟度 | 足場 |
-| テスト | 3 |
-| 技術スタック | Markdown, Python 3.10+ |
+| テスト | 44 |
+| 技術スタック | Rust, Python 3.10+ |
 | 実機での動作 | まだハードウェアでは実行していません |
 
 **移動先：** [概要](#-概要) · [アーキテクチャ](#-アーキテクチャ) · [クイックスタート](#-クイックスタート) · [テスト](#-テスト) · [リポジトリの構成](#-リポジトリの構成) · [関連プロジェクト](#-関連プロジェクト)
@@ -46,14 +46,15 @@
 | 領域 | 状態 | ここでの意味 |
 |---|---|---|
 | リポジトリ チェック | 🟡 | リポジトリ チェック、画像のチェック、基盤の 3 件のテストは CI で実行され、通っています。 |
-| テスト | 🟠 | テストがあるのは基盤だけ（3 件）です。リポジトリのコードには、書かれるにつれて専用のテストが加わります。 |
+| テスト | 🟡 | Rust コードの 41 件のテストと基盤の 3 件のテストは、コンピューター上で通っています。テスト自身が作ったデータだけを使っており、実際のコーパスで実行したものはありません。 |
 | 実機 | 🟠 | どの機械やボードでも実行していません。ここにあるものは、ハードウェア上で試していません。 |
-| 計画中の機能 | 🔴 | 未着手：計画した機能はまだ何も書かれていません。 |
-| 要件 | 🔴 | すべての要件は計画のみ：実装も検証もされていません。 |
+| 計画中の機能 | 🟠 | 作成済み：基準ファイル群のマニフェスト、コピーの照合、分類された結果、ゲート。未作成：基準ファイルとの比較、ケース縮小ツール、不変条件のテスト。 |
+| 要件 | 🟠 | 6 件の要件のうち 4 件は試作段階、2 件は計画のみで、検証済みのものはありません。 |
 
 ## 🎯 概要
 
-* **計画中：** EH3D-VALIDATION-LAB は、基準となるユースケースとシステムの回帰テストを備えたテスト環境となることを目指しています。ウィンドウを持たないライブラリとして、コマンドライン インターフェースと、必要に応じてサーバー タスクの種類を備える予定です。これらはまだ何も存在しません。
+* **現在あるもの：** ウィンドウを持たないライブラリとコマンドライン。基準ファイル群の `SHA256SUMS` マニフェストを書き出して冗長コピーと照合し、すべての失敗が 3 つの分類のいずれかを持つ結果ファイルを読み、実行結果をベースラインと比較します（各レベルの測定済みの率は下がってはなりません）。レポートに出るのはハッシュ、レベル、分類、件数だけです。
+* **計画中：** 基準ファイルとの比較、ケース縮小ツール、設計モデルの不変条件に名前を付けたテスト、そして必要に応じてサーバー タスクの種類。これらはまだ何も存在しません。
 
 ## 🧩 EH3D での役割
 
@@ -69,9 +70,12 @@ EH3D-VALIDATION-LAB は EH3D Fabrication Suite の PHOENIX ファミリーの一
 
 ## 🚀 クイックスタート
 
-Python 3.10 以降が必要で、インストールするものはありません。
+チェックには Python 3.10 以降、コードには Rust ツールチェーンが必要です。
 
 ```bash
+cargo build --release
+cargo test
+cargo run -- manifest <golden-folder>
 python -I tools/ci_validate.py
 python -I tools/make_architecture.py --check
 python -I tools/make_structure.py --check --readmes
@@ -80,11 +84,11 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 テスト
 
-基盤には 3 件のテストがあり（`python -I -m unittest discover -s tools -p "test_*.py"`）、通っています。CI はリポジトリ チェック、画像のチェック、これらのテストを実行します。
+コードには 41 件のテスト（`cargo test`）、基盤には 3 件のテスト（`python -I -m unittest discover -s tools -p "test_*.py"`）があり、すべてコンピューター上で通っています。CI は、リポジトリ チェック、画像のチェック、基盤のテストに加え、Rust コードについては書式チェック、警告をエラーとする clippy、そしてテストを Linux と Windows で実行します。
 
 ## 🏗️ ビルドとリリース
 
-バージョンは `VERSION` ファイルと `eh3d.project.json` にあり、各バージョンには [CHANGELOG.md](CHANGELOG.md) の項目があります。ビルドするものはなく、リリースは GitHub で公開されます。
+バージョンは `VERSION` ファイルと `eh3d.project.json` にあり、各バージョンには [CHANGELOG.md](CHANGELOG.md) の項目があります。`cargo build --release` でライブラリと `eh3d-validation-lab` プログラムをビルドし、リリースは GitHub で公開されます。
 
 ## 📂 リポジトリの構成
 
@@ -99,10 +103,13 @@ python -I -m unittest discover -s tools -p "test_*.py"
 EH3D-VALIDATION-LAB/
 ├── docs/
 │   ├── architecture.json structure.json         2 つの図のデータ
-│   ├── SCOPE.md REQUIREMENTS.md                 計画内容とその要件
+│   ├── SCOPE.md REQUIREMENTS.md                 範囲と要件
 │   ├── DEPENDENCIES.md THREAT_MODEL.md          他のリポジトリとの関係と脅威モデル
 │   ├── DECISIONS.md STATUS.md                   適用される決定事項と正直な状況
 │   └── NOT_YET.md RULES.md                      後回しにしたアイデアとコードの記述規則
+├── src/                                         ライブラリとコマンドライン
+├── config/                                      設定ファイル（調整する値はすべてここ）
+├── Cargo.toml Cargo.lock                        Rust パッケージと固定された依存関係
 ├── tools/                                       リポジトリ チェック、そのテスト、画像のツール
 ├── images/                                      バナーとアーキテクチャ・リポジトリ構成の図
 ├── .github/                                     CI とダッシュボードのワークフロー、Issue と PR のテンプレート
@@ -117,13 +124,15 @@ EH3D-VALIDATION-LAB/
 
 ## 🗺️ ロードマップと既知の制限
 
-**現時点で分かっている制限**
+**現在の既知の制限**
 
-* 計画のみ：コードはなく、何も実行されておらず、実装済みの要件もありません。
+* 初期段階のコード：自身のテストが作ったデータでしか動かしておらず、実際のコーパスや実際の基準ファイル群では一度も使っていません。
+* コピーが同じバイト列を持つことは確認しますが、別々の媒体に置くのは所有者の役目です。
+* 基準ファイルとの比較、ケース縮小ツール、不変条件のテストは書かれていません。
 
 **次のステップ**
 
-* このプロジェクトが依存する契約が承認されるのを待ち（`docs/DEPENDENCIES.md` を参照）、その後テスト付きで最初のバージョンを書き、状態の行を実際の結果に置き換えます。
+* このプロジェクトが依存する契約が承認されたら、基準ファイルとの比較と不変条件のテストを書きます（`docs/DEPENDENCIES.md` を参照）。
 
 ## 🌍 言語
 

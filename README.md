@@ -6,20 +6,20 @@
 
 <p align="center">🇺🇸 <b>English</b> | <a href="README_spa.md">🇪🇸 Español</a> | <a href="README_fra.md">🇫🇷 Français</a> | <a href="README_ita.md">🇮🇹 Italiano</a> | <a href="README_deu.md">🇩🇪 Deutsch</a> | <a href="README_zho.md">🇨🇳 中文</a> | <a href="README_jpn.md">🇯🇵 日本語</a> | <a href="README_por.md">🇵🇹 Português</a></p>
 
-### EH3D-VALIDATION-LAB: planned as a test environment with reference use cases and regression tests of the system. No code yet.
+### EH3D-VALIDATION-LAB: the test environment of the PHOENIX family: manifests of golden files with redundant copies, classified failures and a gate that a measured rate never drops. Early code.
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
-  <img src="https://img.shields.io/badge/Stack-Markdown%20%2B%20Python-blue.svg" alt="Markdown and Python">
+  <img src="https://img.shields.io/badge/Stack-Rust%20%2B%20Python-blue.svg" alt="Rust and Python">
   <img src="https://img.shields.io/badge/Languages-8-00E5FF.svg" alt="Languages">
-  <img src="https://img.shields.io/badge/Tests-3-2EA043.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-44-2EA043.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.0.1-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-scaffolding-FFB020.svg" alt="Maturity">
 </p>
 
 ---
 
-**Honesty check - what actually runs today:** nothing. EH3D-VALIDATION-LAB is only planned: it has no code, no tests of its own and has never run. What exists is the base every repository of the suite carries, plus the written scope, requirements, dependencies, threat model and decisions in `docs/`.
+**Honesty check - what actually runs today:** a small Rust library and command line that write and verify the checksum manifest of a golden set against redundant copies, read results files in which every failure must carry a class, and compare a run with a baseline through a gate. It has 41 tests of its own and they pass on a computer. It has only been used on data made by its own tests: never on a real corpus or a real golden set. It reads no design file, runs no reference tool and does not compare the output of any design tool yet. The case reducer, the invariant tests and the comparison with golden files do not exist.
 
 ---
 
@@ -31,8 +31,8 @@
 |---|---|
 | Version | `0.0.1` |
 | Maturity | Scaffolding |
-| Tests | 3 |
-| Stack | Markdown, Python 3.10+ |
+| Tests | 44 |
+| Stack | Rust, Python 3.10+ |
 | On real hardware | Not run on hardware yet |
 
 **Jump to:** [Overview](#-overview) · [Architecture](#-architecture) · [Quick start](#-quick-start) · [Testing](#-testing) · [Repository Structure](#-repository-structure) · [Related Projects](#-related-projects)
@@ -46,14 +46,15 @@ Each line is one part of this repository and the light says how far it is today.
 | Area | State | What it means here |
 |---|---|---|
 | Repository checks | 🟡 | The repository check, the check of the pictures and the 3 tests of the base run in CI and pass. |
-| Tests | 🟠 | Only the base has tests (3); the code of the repository will get its own as it is written. |
+| Tests | 🟡 | The 41 tests of the Rust code and the 3 of the base pass on a computer. They use only data made by the tests themselves; none has run on a real corpus. |
 | Real hardware | 🟠 | Not run on any machine or board: nothing here has been tried on hardware. |
-| Planned function | 🔴 | Not started: none of the planned function has been written. |
-| Requirements | 🔴 | Every requirement is only planned: none is implemented or verified. |
+| Planned function | 🟠 | Written: manifests of golden sets, verification of copies, classified results and the gate. Not written: the comparison with golden files, the case reducer and the invariant tests. |
+| Requirements | 🟠 | 4 of 6 requirements are at prototype, 2 are only planned and none is validated. |
 
 ## 🎯 Overview
 
-* **Planned:** EH3D-VALIDATION-LAB is meant to be a test environment with reference use cases and regression tests of the system. It is planned as a library without a window, with a command-line interface and, when it applies, a kind of server task. None of this exists yet.
+* **What exists:** a library and a command line, without a window. They write and verify the `SHA256SUMS` manifest of a golden set against redundant copies, read results files where every failure carries one of three classes, and compare a run with a baseline: the measured rate of each level must not drop. Reports show only hashes, levels, classes and counts.
+* **Planned:** the comparison with golden files, the case reducer, the named tests for the invariants of the design model and, when it applies, a kind of server task. None of this exists yet.
 
 ## 🧩 Role in EH3D
 
@@ -69,9 +70,12 @@ How the parts of this repository fit together: who uses it, what it holds and wh
 
 ## 🚀 Quick start
 
-You need Python 3.10 or newer; there is nothing to install.
+You need Python 3.10 or newer for the checks and a Rust toolchain for the code.
 
 ```bash
+cargo build --release
+cargo test
+cargo run -- manifest <golden-folder>
 python -I tools/ci_validate.py
 python -I tools/make_architecture.py --check
 python -I tools/make_structure.py --check --readmes
@@ -80,11 +84,11 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Testing
 
-The base has 3 tests (`python -I -m unittest discover -s tools -p "test_*.py"`), and they pass. The CI runs the repository check, the check of the pictures and those tests.
+The code has 41 tests (`cargo test`) and the base has 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); all pass on a computer. The CI runs the repository check, the check of the pictures, the tests of the base and, for the Rust code, the format check, clippy with warnings as errors and the tests on Linux and Windows.
 
 ## 🏗️ Build & Release
 
-The version lives in the `VERSION` file and in `eh3d.project.json`, and each version has its entry in [CHANGELOG.md](CHANGELOG.md). There is nothing to build; releases are published on GitHub.
+The version lives in the `VERSION` file and in `eh3d.project.json`, and each version has its entry in [CHANGELOG.md](CHANGELOG.md). `cargo build --release` builds the library and the `eh3d-validation-lab` program; releases are published on GitHub.
 
 ## 📂 Repository Structure
 
@@ -99,10 +103,13 @@ The version lives in the `VERSION` file and in `eh3d.project.json`, and each ver
 EH3D-VALIDATION-LAB/
 ├── docs/
 │   ├── architecture.json structure.json         the data of the two pictures
-│   ├── SCOPE.md REQUIREMENTS.md                 what is planned and its requirements
+│   ├── SCOPE.md REQUIREMENTS.md                 its scope and its requirements
 │   ├── DEPENDENCIES.md THREAT_MODEL.md          relations with other repositories and the threat model
 │   ├── DECISIONS.md STATUS.md                   decisions that apply here and the honest status
 │   └── NOT_YET.md RULES.md                      ideas left for later and rules for writing code
+├── src/                                         the library and the command line
+├── config/                                      the settings file (every tuned value)
+├── Cargo.toml Cargo.lock                        the Rust package and its locked dependencies
 ├── tools/                                       the repository check, its tests and the picture tools
 ├── images/                                      banner and the Architecture and Repository Structure pictures
 ├── .github/                                     CI and dashboard workflows, issue and pull-request templates
@@ -119,11 +126,13 @@ EH3D-VALIDATION-LAB/
 
 **Known limits today**
 
-* Planned only: there is no code, nothing has been run and no requirement is implemented.
+* Early code: it has run only on data made by its own tests, never on a real corpus or a real golden set.
+* It checks that copies hold the same bytes; putting them on different media is up to the owner.
+* The comparison with golden files, the case reducer and the invariant tests are not written.
 
 **Next**
 
-* Wait until the contracts this project depends on are accepted (see `docs/DEPENDENCIES.md`), then write the first version with tests and replace the status rows with real results.
+* Write the comparison with golden files and the invariant tests once the contracts this project depends on are accepted (see `docs/DEPENDENCIES.md`).
 
 ## 🌍 Languages
 

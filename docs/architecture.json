@@ -1,8 +1,8 @@
 {
   "repo": "EH3D-VALIDATION-LAB",
   "ecosystem": "eh3d",
-  "tagline": "Planned: reference cases, golden-file oracles and regression tests for the PHOENIX family.",
-  "description": "EH3D-VALIDATION-LAB is planned as a test environment with reference use cases and regression tests of the system. Today it has the base of every repository of the suite and a written scope, requirements and dependencies; no code has been written and nothing has been run on a machine.",
+  "tagline": "Manifests of golden sets, classified results and a gate that a measured rate never drops.",
+  "description": "EH3D-VALIDATION-LAB is the test environment of the PHOENIX family. Today it holds a library and a command line that write and verify the manifest of a golden set against redundant copies, read results in which every failure carries a class, and compare a run with a baseline. It has only run on data made by its own tests; the comparison with golden files is not written.",
   "columns": [
     "WHO USES IT",
     "THIS REPOSITORY",
@@ -13,10 +13,10 @@
       "id": "reader",
       "column": 0,
       "level": "external",
-      "title": "A developer",
+      "title": "A person",
       "lines": [
-        "someone who is going to give",
-        "this repository its purpose"
+        "who checks a golden set",
+        "or compares two runs"
       ]
     },
     {
@@ -36,11 +36,15 @@
     {
       "id": "code",
       "column": 1,
-      "level": "config",
+      "level": "tested",
       "title": "The code",
       "lines": [
-        "planned: reference cases",
-        "and regression tests"
+        "manifests, copies, classified",
+        "results and the rate gate"
+      ],
+      "code": [
+        "src/verify.rs",
+        "src/gate.rs"
       ]
     },
     {
@@ -70,13 +74,12 @@
     {
       "from": "reader",
       "to": "code",
-      "label": "writes",
-      "level": "config"
+      "label": "runs",
+      "level": "tested"
     }
   ],
   "legend": {
-    "tested": "covered by the checks of this repository",
-    "config": "planned, not built",
+    "tested": "covered by the checks and tests of this repository",
     "external": "a person or other repositories"
   },
   "footer": "Nothing here has been run on a machine."

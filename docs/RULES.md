@@ -1,6 +1,6 @@
 # EH3D-VALIDATION-LAB: rules for writing code
 
-Rules for anyone who writes code in this repository, human or tool. There is no code yet; these rules apply from the first line.
+Rules for anyone who writes code in this repository, human or tool. These rules apply to every line of code.
 
 ## Licence
 Software is GPL-3.0-or-later. Every source file starts with an SPDX licence header. Hardware designs, where they exist, use CERN-OHL-S-2.0, and a repository that mixes the two states the licence per file or folder.
@@ -8,7 +8,7 @@ Software is GPL-3.0-or-later. Every source file starts with an SPDX licence head
 ## Before you start
 Read STATUS.md (what exists), the requirement you work on in REQUIREMENTS.md and the decisions in DECISIONS.md. Never contradict an accepted decision: propose a new one. A contract that is not accepted is not implemented or consumed: stop and report it.
 
-## Build and test (once code exists)
+## Build and test
 Run before every commit: `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`, `cargo test`, `cargo deny check` and `python -I tools/ci_validate.py`. The repository builds next to its sibling repositories (see DEPENDENCIES.md).
 
 ## Code

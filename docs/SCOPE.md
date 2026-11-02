@@ -1,6 +1,6 @@
 # EH3D-VALIDATION-LAB: scope
 
-Status: **planned**. EH3D-VALIDATION-LAB has no code. This page says what it is meant to do, what it will not do, and where it sits. Nothing here has been built or run.
+Status: **early code**. EH3D-VALIDATION-LAB has a library and a command line for golden-set manifests, classified results and the rate gate; the rest below is planned. This page says what it does, what it is meant to do, what it will not do, and where it sits. Nothing here has been used on a real corpus or on a machine.
 
 ## Purpose
 
@@ -8,7 +8,9 @@ EH3D-VALIDATION-LAB is planned as a test environment with reference use cases an
 
 Test environment of the PHOENIX family: a corpus of reference cases with expected results, oracles made of stored golden files, and regression gates.
 
-## What it is planned to do
+## What it does today and what it is planned to do
+
+Written, and tried only on data made by its own tests: the manifest of a golden set and its verification against redundant copies, results files in which every failure carries a class, the gate that a measured rate does not drop, and reports that hide the names of cases. Everything else in this list is planned.
 
 * A corpus of reference cases with expected results, kept as data and runnable from a command line.
 * An oracle made of golden files: results produced by a reference tool while it still works, stored with checksums and redundant verified copies, compared by local scripts.
@@ -27,9 +29,9 @@ Test environment of the PHOENIX family: a corpus of reference cases with expecte
 
 ## Planned shape
 
-A library without a window, written in Rust (planned), with a command-line interface and, where it applies, a kind of task for the server. Programs of the suite exchange work through project files or through the server, never by depending on each other.
+A library without a window, written in Rust, with a command-line interface (the commands `manifest`, `verify`, `baseline` and `gate`) and, where it applies, a kind of task for the server (planned). Programs of the suite exchange work through project files or through the server, never by depending on each other.
 
-Crates, names and file layout will be decided together with the first code; no crate exists yet.
+It is one Rust package with a library and a program. It reads no design file and depends on no other repository of the suite yet.
 
 ## Where it sits
 

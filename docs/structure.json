@@ -37,14 +37,14 @@
           "name": "SCOPE.md  REQUIREMENTS.md",
           "tree_name": "SCOPE.md REQUIREMENTS.md",
           "desc": {
-            "en": "what is planned and its requirements",
-            "es": "lo planificado y sus requisitos",
-            "de": "das Geplante und seine Anforderungen",
-            "fr": "ce qui est prévu et ses exigences",
-            "it": "ciò che è pianificato e i suoi requisiti",
-            "ja": "計画内容とその要件",
-            "zh": "计划内容及其需求",
-            "pt": "o que está planeado e os seus requisitos"
+            "en": "its scope and its requirements",
+            "es": "su alcance y sus requisitos",
+            "de": "Umfang und Anforderungen",
+            "fr": "son périmètre et ses exigences",
+            "it": "l'ambito e i requisiti",
+            "ja": "範囲と要件",
+            "zh": "范围和需求",
+            "pt": "o âmbito e os requisitos"
           }
         },
         {
@@ -116,6 +116,46 @@
       "accent": "a",
       "kind": "group",
       "rows": [
+        {
+          "name": "src/",
+          "desc": {
+            "en": "the library and the command line",
+            "es": "la biblioteca y la línea de comandos",
+            "de": "die Bibliothek und die Kommandozeile",
+            "fr": "la bibliothèque et la ligne de commande",
+            "it": "la libreria e la riga di comando",
+            "ja": "ライブラリとコマンドライン",
+            "zh": "库和命令行",
+            "pt": "a biblioteca e a linha de comandos"
+          }
+        },
+        {
+          "name": "config/",
+          "desc": {
+            "en": "the settings file (every tuned value)",
+            "es": "el fichero de ajustes (todo valor afinado)",
+            "de": "die Einstellungsdatei (jeder abgestimmte Wert)",
+            "fr": "le fichier de réglages (chaque valeur ajustée)",
+            "it": "il file delle impostazioni (ogni valore regolato)",
+            "ja": "設定ファイル（調整する値はすべてここ）",
+            "zh": "设置文件（所有调整值）",
+            "pt": "o ficheiro de definições (todo o valor ajustado)"
+          }
+        },
+        {
+          "name": "Cargo.toml  Cargo.lock",
+          "tree_name": "Cargo.toml Cargo.lock",
+          "desc": {
+            "en": "the Rust package and its locked dependencies",
+            "es": "el paquete de Rust y sus dependencias fijadas",
+            "de": "das Rust-Paket und seine festgelegten Abhängigkeiten",
+            "fr": "le paquet Rust et ses dépendances figées",
+            "it": "il pacchetto Rust e le sue dipendenze bloccate",
+            "ja": "Rust パッケージと固定された依存関係",
+            "zh": "Rust 包及其锁定的依赖",
+            "pt": "o pacote Rust e as suas dependências fixadas"
+          }
+        },
         {
           "desc": {
             "en": "the repository check, its tests and the picture tools",

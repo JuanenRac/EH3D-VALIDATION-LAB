@@ -2,11 +2,11 @@
 
 ## Current state
 
-EH3D-VALIDATION-LAB is planned. Version 0.0.1 holds only the base that every repository of the suite carries (manifest, README files in eight languages, changelog, CI, shared checks) and the written scope, requirements, dependencies, threat model and decisions. There is no code, nothing has been run on a machine, and no requirement is implemented.
+EH3D-VALIDATION-LAB is early code. Beside the base that every repository of the suite carries, it has a Rust library and a command line that write and verify the checksum manifest of a golden set against redundant copies, read results files in which every failure carries a class, and compare a run with a baseline through a gate. All of it has run only on data made by its own tests, never on a real corpus or a real golden set. It reads no design file, runs no reference tool and does not yet compare the output of any design tool.
 
 ## Capabilities
 
-The official state of each capability is in REQUIREMENTS.md: 6 requirements, all `planned`. This page never states a state that REQUIREMENTS.md does not.
+The official state of each capability is in REQUIREMENTS.md: 6 requirements: 4 `prototype` (VLAB-001, 002, 003 and 006) and 2 `planned` (VLAB-004 and 005). This page never states a state that REQUIREMENTS.md does not.
 
 ## Open questions
 
@@ -19,4 +19,6 @@ The official state of each capability is in REQUIREMENTS.md: 6 requirements, all
 
 ## Known technical debt and omitted tests
 
-None yet. The only tests are those of the base (the repository check and the checks of the two README pictures).
+* 41 tests of the Rust code and 3 of the base; the Rust tests build their own folders and results and never touch a real project.
+* Not tested: very large golden sets (millions of files), folders synchronised by a cloud service, copies on removable media that disappear during a run, and links inside a golden set (they are refused, which is tested).
+* `cargo deny` is not run yet.

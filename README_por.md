@@ -6,20 +6,20 @@
 
 <p align="center"><a href="README.md">🇺🇸 English</a> | <a href="README_spa.md">🇪🇸 Español</a> | <a href="README_fra.md">🇫🇷 Français</a> | <a href="README_ita.md">🇮🇹 Italiano</a> | <a href="README_deu.md">🇩🇪 Deutsch</a> | <a href="README_zho.md">🇨🇳 中文</a> | <a href="README_jpn.md">🇯🇵 日本語</a> | 🇵🇹 <b>Português</b></p>
 
-### EH3D-VALIDATION-LAB: planeado como um ambiente de testes com casos de uso de referência e testes de regressão do sistema. Ainda sem código.
+### EH3D-VALIDATION-LAB: o ambiente de testes da família PHOENIX: manifestos de ficheiros de referência com cópias redundantes, falhas classificadas e uma barreira que impede que uma taxa medida baixe. Código inicial.
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
-  <img src="https://img.shields.io/badge/Stack-Markdown%20%2B%20Python-blue.svg" alt="Markdown and Python">
+  <img src="https://img.shields.io/badge/Stack-Rust%20%2B%20Python-blue.svg" alt="Rust and Python">
   <img src="https://img.shields.io/badge/Languages-8-00E5FF.svg" alt="Languages">
-  <img src="https://img.shields.io/badge/Tests-3-2EA043.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-44-2EA043.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.0.1-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-scaffolding-FFB020.svg" alt="Maturity">
 </p>
 
 ---
 
-**Verificação de honestidade - o que funciona hoje:** nada. EH3D-VALIDATION-LAB está apenas planeado: não tem código, nem testes próprios, e nunca foi executado. O que existe é a base que todo o repositório da suite leva, mais o âmbito, os requisitos, as dependências, o modelo de ameaças e as decisões escritos em `docs/`.
+**Verificação de honestidade - o que funciona hoje:** uma pequena biblioteca Rust com linha de comandos que escreve e verifica o manifesto de somas de controlo de um conjunto de referência contra cópias redundantes, lê ficheiros de resultados em que toda a falha tem de levar uma classe e compara uma execução com uma base de partida através de uma barreira. Tem 41 testes próprios, que passam num computador. Só foi usada com dados criados pelos seus próprios testes: nunca com um corpus real nem com um conjunto de referência real. Não lê nenhum ficheiro de projeto, não executa nenhuma ferramenta de referência e ainda não compara a saída de nenhuma ferramenta de projeto. O redutor de casos, os testes de invariantes e a comparação com ficheiros de referência não existem.
 
 ---
 
@@ -31,8 +31,8 @@
 |---|---|
 | Versão | `0.0.1` |
 | Maturidade | Estrutura inicial |
-| Testes | 3 |
-| Tecnologias | Markdown, Python 3.10+ |
+| Testes | 44 |
+| Tecnologias | Rust, Python 3.10+ |
 | Em hardware real | Ainda não executado em hardware |
 
 **Ir para:** [Visão geral](#-visão-geral) · [Arquitetura](#-arquitetura) · [Início rápido](#-início-rápido) · [Testes](#-testes) · [Estrutura do repositório](#-estrutura-do-repositório) · [Projetos relacionados](#-projetos-relacionados)
@@ -46,14 +46,15 @@ Cada linha é uma parte deste repositório e a luz diz até onde chega hoje. É 
 | Área | Estado | O que significa aqui |
 |---|---|---|
 | Verificações do repositório | 🟡 | A verificação do repositório, a das imagens e os 3 testes da base correm na CI e passam. |
-| Testes | 🟠 | Só a base tem testes (3); o código do repositório terá os seus à medida que for escrito. |
+| Testes | 🟡 | Os 41 testes do código Rust e os 3 da base passam num computador. Usam apenas dados criados pelos próprios testes; nenhum foi executado com um corpus real. |
 | Hardware real | 🟠 | Não foi executado em nenhuma máquina nem placa: nada aqui foi experimentado em hardware. |
-| Função planeada | 🔴 | Por começar: nada da função planeada está escrito. |
-| Requisitos | 🔴 | Todos os requisitos estão apenas planeados: nenhum está implementado nem verificado. |
+| Função planeada | 🟠 | Escrito: manifestos de conjuntos de referência, verificação de cópias, resultados classificados e a barreira. Por escrever: a comparação com ficheiros de referência, o redutor de casos e os testes de invariantes. |
+| Requisitos | 🟠 | 4 de 6 requisitos estão em protótipo, 2 estão apenas planeados e nenhum está validado. |
 
 ## 🎯 Visão geral
 
-* **Planeado:** EH3D-VALIDATION-LAB pretende ser um ambiente de testes com casos de uso de referência e testes de regressão do sistema. Está planeado como uma biblioteca sem janela, com interface de linha de comandos e, quando se aplicar, um tipo de tarefa do servidor. Nada disto existe ainda.
+* **O que existe:** uma biblioteca e uma linha de comandos, sem janela. Escrevem e verificam o manifesto `SHA256SUMS` de um conjunto de referência contra cópias redundantes, leem ficheiros de resultados em que toda a falha leva uma de três classes e comparam uma execução com uma base de partida: a taxa medida de cada nível não pode baixar. Os relatórios mostram apenas hashes, níveis, classes e contagens.
+* **Planeado:** a comparação com ficheiros de referência, o redutor de casos, os testes com nome para os invariantes do modelo de projeto e, quando se aplicar, um tipo de tarefa do servidor. Nada disto existe ainda.
 
 ## 🧩 Papel no EH3D
 
@@ -69,9 +70,12 @@ Como as partes deste repositório se encaixam: quem o usa, o que contém e de qu
 
 ## 🚀 Início rápido
 
-Precisa de Python 3.10 ou mais recente; não há nada a instalar.
+Precisa de Python 3.10 ou superior para as verificações e de uma cadeia de ferramentas Rust para o código.
 
 ```bash
+cargo build --release
+cargo test
+cargo run -- manifest <golden-folder>
 python -I tools/ci_validate.py
 python -I tools/make_architecture.py --check
 python -I tools/make_structure.py --check --readmes
@@ -80,11 +84,11 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Testes
 
-A base tem 3 testes (`python -I -m unittest discover -s tools -p "test_*.py"`), e passam. A CI executa a verificação do repositório, a das imagens e esses testes.
+O código tem 41 testes (`cargo test`) e a base tem 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); todos passam num computador. A CI executa a verificação do repositório, a das imagens, os testes da base e, para o código Rust, a verificação do formato, o clippy com os avisos tratados como erros e os testes em Linux e Windows.
 
 ## 🏗️ Compilação e publicação
 
-A versão vive no ficheiro `VERSION` e em `eh3d.project.json`, e cada versão tem a sua entrada em [CHANGELOG.md](CHANGELOG.md). Não há nada a compilar; as versões são publicadas no GitHub.
+A versão vive no ficheiro `VERSION` e em `eh3d.project.json`, e cada versão tem a sua entrada em [CHANGELOG.md](CHANGELOG.md). `cargo build --release` compila a biblioteca e o programa `eh3d-validation-lab`; as versões são publicadas no GitHub.
 
 ## 📂 Estrutura do repositório
 
@@ -99,10 +103,13 @@ A versão vive no ficheiro `VERSION` e em `eh3d.project.json`, e cada versão te
 EH3D-VALIDATION-LAB/
 ├── docs/
 │   ├── architecture.json structure.json         os dados das duas imagens
-│   ├── SCOPE.md REQUIREMENTS.md                 o que está planeado e os seus requisitos
+│   ├── SCOPE.md REQUIREMENTS.md                 o âmbito e os requisitos
 │   ├── DEPENDENCIES.md THREAT_MODEL.md          relações com outros repositórios e modelo de ameaças
 │   ├── DECISIONS.md STATUS.md                   decisões que se aplicam aqui e estado honesto
 │   └── NOT_YET.md RULES.md                      ideias para mais tarde e regras para escrever código
+├── src/                                         a biblioteca e a linha de comandos
+├── config/                                      o ficheiro de definições (todo o valor ajustado)
+├── Cargo.toml Cargo.lock                        o pacote Rust e as suas dependências fixadas
 ├── tools/                                       a verificação do repositório, os seus testes e as ferramentas das imagens
 ├── images/                                      banner e as imagens de Arquitetura e Estrutura do repositório
 ├── .github/                                     fluxos de CI e do painel, modelos de issues e pull requests
@@ -119,11 +126,13 @@ EH3D-VALIDATION-LAB/
 
 **Limites conhecidos hoje**
 
-* Apenas planeado: não há código, nada foi executado e nenhum requisito está implementado.
+* Código inicial: só foi executado com dados criados pelos seus próprios testes, nunca com um corpus real nem com um conjunto de referência real.
+* Verifica que as cópias têm os mesmos bytes; pô-las em suportes diferentes cabe ao proprietário.
+* A comparação com ficheiros de referência, o redutor de casos e os testes de invariantes não estão escritos.
 
 **A seguir**
 
-* Esperar que os contratos de que este projeto depende sejam aceites (ver `docs/DEPENDENCIES.md`), escrever depois a primeira versão com testes e substituir as linhas de estado por resultados reais.
+* Escrever a comparação com ficheiros de referência e os testes de invariantes quando forem aceites os contratos de que este projeto depende (ver `docs/DEPENDENCIES.md`).
 
 ## 🌍 Idiomas
 
