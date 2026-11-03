@@ -141,7 +141,7 @@ README とテキストは、英語、スペイン語、フランス語、イタ�
 ## 🔗 関連プロジェクト
 
 * [EH3D-DOCS](https://github.com/JuanenRac/EH3D-DOCS)：スイートの地図、アーキテクチャ、規約、共有チェック
-* 計画中の関係（未構築）（EH3D-PHOENIX-PCB, EH3D-COMMON）：[docs/DEPENDENCIES.md](docs/DEPENDENCIES.md) を参照
+* 計画中の関係（未構築）（[EH3D-PHOENIX-PCB](https://github.com/JuanenRac/EH3D-PHOENIX-PCB), [EH3D-COMMON](https://github.com/JuanenRac/EH3D-COMMON), [EH3D-LAB-BRIDGE](https://github.com/JuanenRac/EH3D-LAB-BRIDGE)）：[docs/DEPENDENCIES.md](docs/DEPENDENCIES.md) を参照
 
 ## 📚 ドキュメント
 

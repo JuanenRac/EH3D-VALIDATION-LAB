@@ -141,7 +141,7 @@ README 和文本提供英语、西班牙语、法语、意大利语、德语、�
 ## 🔗 相关项目
 
 * [EH3D-DOCS](https://github.com/JuanenRac/EH3D-DOCS)：套件地图、架构、约定和共享检查
-* 计划中的关系，尚未构建（EH3D-PHOENIX-PCB, EH3D-COMMON）：见 [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md)
+* 计划中的关系，尚未构建（[EH3D-PHOENIX-PCB](https://github.com/JuanenRac/EH3D-PHOENIX-PCB), [EH3D-COMMON](https://github.com/JuanenRac/EH3D-COMMON), [EH3D-LAB-BRIDGE](https://github.com/JuanenRac/EH3D-LAB-BRIDGE)）：见 [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md)
 
 ## 📚 文档
 

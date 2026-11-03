@@ -141,7 +141,7 @@ Il README e i testi esistono in inglese, spagnolo, francese, italiano, tedesco, 
 ## 🔗 Progetti correlati
 
 * [EH3D-DOCS](https://github.com/JuanenRac/EH3D-DOCS): la mappa della suite, la sua architettura, le convenzioni e i controlli condivisi
-* Relazioni pianificate, non ancora costruite (EH3D-PHOENIX-PCB, EH3D-COMMON): vedi [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md)
+* Relazioni pianificate, non ancora costruite ([EH3D-PHOENIX-PCB](https://github.com/JuanenRac/EH3D-PHOENIX-PCB), [EH3D-COMMON](https://github.com/JuanenRac/EH3D-COMMON), [EH3D-LAB-BRIDGE](https://github.com/JuanenRac/EH3D-LAB-BRIDGE)): vedi [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md)
 
 ## 📚 Documentazione
 
