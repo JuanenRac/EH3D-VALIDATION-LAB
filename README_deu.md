@@ -106,7 +106,10 @@ EH3D-VALIDATION-LAB/
 │   ├── SCOPE.md REQUIREMENTS.md                 Umfang und Anforderungen
 │   ├── DEPENDENCIES.md THREAT_MODEL.md          Beziehungen zu anderen Repositories und Bedrohungsmodell
 │   ├── DECISIONS.md STATUS.md                   hier geltende Entscheidungen und ehrlicher Status
-│   └── NOT_YET.md RULES.md                      Ideen für später und Regeln zum Schreiben von Code
+│   ├── NOT_YET.md RULES.md                      Ideen für später und Regeln zum Schreiben von Code
+│   └── adr/                                     die angenommenen Entscheidungsprotokolle
+├── AGENTS.md                                    Regeln für alle, die das Repository ändern
+├── deny.toml                                    Lizenz- und Hinweisrichtlinie der Abhängigkeiten
 ├── src/                                         die Bibliothek und die Kommandozeile
 ├── config/                                      die Einstellungsdatei (jeder abgestimmte Wert)
 ├── Cargo.toml Cargo.lock                        das Rust-Paket und seine festgelegten Abhängigkeiten

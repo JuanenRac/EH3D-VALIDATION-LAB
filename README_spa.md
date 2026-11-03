@@ -106,7 +106,10 @@ EH3D-VALIDATION-LAB/
 │   ├── SCOPE.md REQUIREMENTS.md                 su alcance y sus requisitos
 │   ├── DEPENDENCIES.md THREAT_MODEL.md          relaciones con otros repositorios y modelo de amenazas
 │   ├── DECISIONS.md STATUS.md                   decisiones que se aplican aquí y estado honesto
-│   └── NOT_YET.md RULES.md                      ideas para más adelante y reglas para escribir código
+│   ├── NOT_YET.md RULES.md                      ideas para más adelante y reglas para escribir código
+│   └── adr/                                     los registros de decisiones aceptadas
+├── AGENTS.md                                    reglas para quien cambia el repositorio
+├── deny.toml                                    política de licencias y avisos de las dependencias
 ├── src/                                         la biblioteca y la línea de comandos
 ├── config/                                      el fichero de ajustes (todo valor afinado)
 ├── Cargo.toml Cargo.lock                        el paquete de Rust y sus dependencias fijadas

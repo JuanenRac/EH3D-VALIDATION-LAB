@@ -106,7 +106,10 @@ EH3D-VALIDATION-LAB/
 │   ├── SCOPE.md REQUIREMENTS.md                 範囲と要件
 │   ├── DEPENDENCIES.md THREAT_MODEL.md          他のリポジトリとの関係と脅威モデル
 │   ├── DECISIONS.md STATUS.md                   適用される決定事項と正直な状況
-│   └── NOT_YET.md RULES.md                      後回しにしたアイデアとコードの記述規則
+│   ├── NOT_YET.md RULES.md                      後回しにしたアイデアとコードの記述規則
+│   └── adr/                                     承認された決定の記録
+├── AGENTS.md                                    リポジトリを変更する人のための規則
+├── deny.toml                                    依存関係のライセンスと勧告の方針
 ├── src/                                         ライブラリとコマンドライン
 ├── config/                                      設定ファイル（調整する値はすべてここ）
 ├── Cargo.toml Cargo.lock                        Rust パッケージと固定された依存関係
