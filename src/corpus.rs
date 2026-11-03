@@ -37,7 +37,7 @@ impl Kind {
     /// The kind of an extension (any letter case), when the configuration lists it.
     pub fn of_extension(extension: &str, config: &Config) -> Option<Kind> {
         let lower = extension.to_ascii_lowercase();
-        if !config.corpus_extensions.iter().any(|e| *e == lower) {
+        if !config.corpus_extensions.contains(&lower) {
             return None;
         }
         match lower.as_str() {
