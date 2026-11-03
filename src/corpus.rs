@@ -713,7 +713,7 @@ mod tests {
     fn long_paths_and_names_that_differ_only_in_case_are_left_out_and_counted() {
         let (src, out) = (tempfile::tempdir().unwrap(), tempfile::tempdir().unwrap());
         write(src.path(), "ok.brd", XML9);
-        let long = format!("{}.brd", "n".repeat(300));
+        let long = format!("{}.brd", "n".repeat(150));
         write(src.path(), &long, XML9);
         let config = Config {
             max_path_bytes: 100,
@@ -741,7 +741,7 @@ mod tests {
         let only_boards = Config::parse("corpus_extensions = brd\n").unwrap();
         assert_eq!(inventory(dir.path(), &only_boards).unwrap().design_files, 3);
         // a head too short to hold the header makes the XML files `other`: the setting matters
-        let short = Config::parse("corpus_head_bytes = 8\n").unwrap();
+        let short = Config::parse("corpus_head_bytes = 16\n").unwrap();
         let inv = inventory(dir.path(), &short).unwrap();
         assert!(inv.cells.keys().all(|(_, f)| !matches!(f, Family::Xml(_))));
         assert_eq!(
