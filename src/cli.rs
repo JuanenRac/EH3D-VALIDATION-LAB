@@ -403,22 +403,34 @@ mod tests {
             "a\tL0:opens-clean\ttrue\na\tL3:drc-errors\t2\tphoenix-error\n",
         )
         .unwrap();
-        let (code, results, err) = call(&["oracle", golden.to_str().unwrap(), same.to_str().unwrap()]);
+        let (code, results, err) =
+            call(&["oracle", golden.to_str().unwrap(), same.to_str().unwrap()]);
         assert_eq!((code, err.as_str()), (0, ""), "{err}");
         let first = work.path().join("first.tsv");
         fs::write(&first, &results).unwrap();
         let (_, base, _) = call(&["baseline", first.to_str().unwrap()]);
         let base_path = work.path().join("base.json");
         fs::write(&base_path, base).unwrap();
-        let (code, results, _) = call(&["oracle", golden.to_str().unwrap(), worse.to_str().unwrap()]);
+        let (code, results, _) =
+            call(&["oracle", golden.to_str().unwrap(), worse.to_str().unwrap()]);
         assert_eq!(code, 1);
         assert!(results.contains("a\tL3\tfail:phoenix-error"), "{results}");
         let second = work.path().join("second.tsv");
         fs::write(&second, &results).unwrap();
-        let (code, _, _) = call(&["gate", base_path.to_str().unwrap(), second.to_str().unwrap()]);
-        assert_eq!(code, 1, "a level that passed before and fails now stops the gate");
+        let (code, _, _) = call(&[
+            "gate",
+            base_path.to_str().unwrap(),
+            second.to_str().unwrap(),
+        ]);
+        assert_eq!(
+            code, 1,
+            "a level that passed before and fails now stops the gate"
+        );
         let bad = work.path().join("bad.tsv");
         fs::write(&bad, "a\tL3:drc-errors\t2\n").unwrap();
-        assert_eq!(call(&["oracle", golden.to_str().unwrap(), bad.to_str().unwrap()]).0, 2);
+        assert_eq!(
+            call(&["oracle", golden.to_str().unwrap(), bad.to_str().unwrap()]).0,
+            2
+        );
     }
 }

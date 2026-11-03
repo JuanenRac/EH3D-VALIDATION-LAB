@@ -66,12 +66,14 @@ fn parse_lines(text: &str, config: &Config, observed: bool) -> Result<Vec<Line>,
         }
         let class = match parts.get(3) {
             None => None,
-            Some(text) => Some(
-                FailureClass::parse(text).ok_or(LabError::UnclassifiedFailure { line })?,
-            ),
+            Some(text) => {
+                Some(FailureClass::parse(text).ok_or(LabError::UnclassifiedFailure { line })?)
+            }
         };
         if out.len() >= config.max_entries {
-            return Err(LabError::TooLarge { what: "oracle lines" });
+            return Err(LabError::TooLarge {
+                what: "oracle lines",
+            });
         }
         if !seen.insert((parts[0].to_string(), parts[1].to_string())) {
             return Err(LabError::DuplicateResult { line });
@@ -193,10 +195,7 @@ mod tests {
         let observed = "a\tL0:opens-clean\ttrue\na\tL3:drc-errors\t2\tphoenix-error\nb\tL0:opens-clean\ttrue\n";
         let (r, s) = compare(GOLDEN, observed, &Config::default()).unwrap();
         assert_eq!(get(&r, "a", 0), Outcome::Pass);
-        assert_eq!(
-            get(&r, "a", 3),
-            Outcome::Fail(FailureClass::PhoenixError)
-        );
+        assert_eq!(get(&r, "a", 3), Outcome::Fail(FailureClass::PhoenixError));
         assert_eq!(get(&r, "b", 0), Outcome::Pass);
         assert_eq!((s.agreed, s.differed), (2, 1));
     }
@@ -226,8 +225,7 @@ mod tests {
     #[test]
     fn the_worst_class_of_a_level_wins_and_extra_checks_are_only_counted() {
         let golden = "a\tL1:x\t1\na\tL1:y\t1\n";
-        let observed =
-            "a\tL1:x\t2\tfile-error\na\tL1:y\t2\tphoenix-error\na\tL1:z\t9\n";
+        let observed = "a\tL1:x\t2\tfile-error\na\tL1:y\t2\tphoenix-error\na\tL1:z\t9\n";
         let (r, s) = compare(golden, observed, &Config::default()).unwrap();
         assert_eq!(r.len(), 1);
         assert_eq!(r[0].outcome, Outcome::Fail(FailureClass::PhoenixError));
@@ -265,7 +263,8 @@ mod tests {
 
     #[test]
     fn the_rendered_results_read_back_and_the_size_limit_applies() {
-        let observed = "a\tL0:opens-clean\ttrue\na\tL3:drc-errors\t2\tfile-error\nb\tL0:opens-clean\ttrue\n";
+        let observed =
+            "a\tL0:opens-clean\ttrue\na\tL3:drc-errors\t2\tfile-error\nb\tL0:opens-clean\ttrue\n";
         let config = Config::default();
         let (r, _) = compare(GOLDEN, observed, &config).unwrap();
         let text = render_results(&r);
