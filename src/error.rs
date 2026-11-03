@@ -76,6 +76,18 @@ pub enum LabError {
         /// 1-based line number.
         line: usize,
     },
+    /// A line of a golden or observed file is not `case<TAB>L<n>:name<TAB>value`, or has a fourth column where none is allowed.
+    #[error("oracle line {line}: expected `case<TAB>L<n>:check<TAB>value[<TAB>class]`")]
+    OracleSyntax {
+        /// 1-based line number.
+        line: usize,
+    },
+    /// A working copy was asked for in a place that is not safe: inside the original folder, around it, or over files that are already there.
+    #[error("the target of the copy is inside the original, around it, or not empty")]
+    UnsafeTarget,
+    /// A file read back from the copy is not the file that was read from the original.
+    #[error("a copied file does not read back as the original")]
+    CopyMismatch,
     /// The baseline file is not a baseline written by this tool.
     #[error("the baseline cannot be read")]
     BadBaseline,

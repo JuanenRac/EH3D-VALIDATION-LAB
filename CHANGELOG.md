@@ -11,6 +11,11 @@ All notable changes to this project are documented here.
 - Show only hashes, levels, classes and counts in reports, with a test that no name of a case leaks.
 - Add the `manifest`, `verify`, `baseline` and `gate` commands and a settings file for every tuned value.
 - Run format, lints and tests of the Rust code on Linux and Windows in the CI.
+- Add `corpus-inventory`: counts the design files of a folder by level (library, schematic, board) and by format family and version, with one digest of the set and no names.
+- Add `corpus-copy`: makes a working copy of the design files with a `SHA256SUMS`, reads each copy back, opens the originals only for reading and refuses a target inside the original, around it or not empty.
+- Add the `oracle` command: compares what a tool says with a golden file check by check, by level, and writes the results file that the baseline and the gate read; a difference needs a class and a missing check counts as an error of the tool.
+- Add the settings `corpus_extensions` and `corpus_head_bytes`.
+- **The workflows are hardened:** every action is pinned by its commit with its version in a comment, and the checkouts keep no credentials.
 
 ## [0.0.1] - The base of the repository
 

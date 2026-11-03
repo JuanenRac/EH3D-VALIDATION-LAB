@@ -2,7 +2,7 @@
 
 ## Current state
 
-EH3D-VALIDATION-LAB is early code. Beside the base that every repository of the suite carries, it has a Rust library and a command line that write and verify the checksum manifest of a golden set against redundant copies, read results files in which every failure carries a class, and compare a run with a baseline through a gate. All of it has run only on data made by its own tests, never on a real corpus or a real golden set. It reads no design file, runs no reference tool and does not yet compare the output of any design tool.
+EH3D-VALIDATION-LAB is early code. Beside the base that every repository of the suite carries, it has a Rust library and a command line that write and verify the checksum manifest of a golden set against redundant copies, read results files in which every failure carries a class, and compare a run with a baseline through a gate. It also counts the design files of a folder by level and by format version and makes a checked working copy of them (the originals are only read), and compares what a tool says with a golden file. All of it has run only on data made by its own tests, never on a real corpus or a real golden set. It reads no design file, runs no reference tool and does not yet compare the output of any design tool.
 
 ## Capabilities
 

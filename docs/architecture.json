@@ -39,11 +39,13 @@
       "level": "tested",
       "title": "The code",
       "lines": [
-        "manifests, copies, classified",
-        "results and the rate gate"
+        "manifests, copies, corpus, oracle,",
+        "classified results, rate gate"
       ],
       "code": [
         "src/verify.rs",
+        "src/corpus.rs",
+        "src/oracle.rs",
         "src/gate.rs"
       ]
     },

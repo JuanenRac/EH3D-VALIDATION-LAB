@@ -5,10 +5,12 @@
 
 use crate::classify::parse_results;
 use crate::config::Config;
+use crate::corpus;
 use crate::error::LabError;
 use crate::gate::{evaluate, Baseline};
 use crate::hash::opaque_id;
 use crate::manifest::{Manifest, MANIFEST_NAME};
+use crate::oracle;
 use crate::verify::{verify_copies, EntryStatus};
 use std::fs;
 use std::io::Write;
@@ -22,6 +24,9 @@ eh3d-validation-lab [--config FILE] <command>
                                           check redundant copies against a manifest
   baseline <results.tsv>                  print the baseline of a run
   gate <baseline.json> <results.tsv>      compare a run with a baseline
+  corpus-inventory <dir>                  count the design files of a folder by level and by family and version
+  oracle <golden.tsv> <observed.tsv>      compare what the tool says with the golden file; prints a results file for `baseline` and `gate`
+  corpus-copy <dir> <target>              make a checked working copy of the design files, with a SHA256SUMS
 
 Reports show only hashes, levels, classes and counts unless --show-paths is given.
 ";
@@ -83,6 +88,33 @@ fn dispatch(args: &[String], out: &mut dyn Write) -> Result<i32, Failure> {
             Ok(0)
         }
         ("verify", rest) => verify_command(rest, &config, out),
+        ("corpus-inventory", [dir]) => {
+            let inventory = corpus::inventory(Path::new(dir), &config)?;
+            let _ = writeln!(out, "{}", inventory.to_json()?);
+            Ok(0)
+        }
+        ("corpus-copy", [dir, target]) => {
+            let report = corpus::copy(Path::new(dir), Path::new(target), &config)?;
+            let value = serde_json::json!({
+                "copied": report.copied, "bytes": report.bytes, "skipped_path": report.skipped_path,
+                "skipped_duplicate": report.skipped_duplicate, "skipped_unsupported": report.skipped_unsupported,
+                "manifest_sha256": report.manifest_sha256, "set_digest": report.set_digest,
+            });
+            let _ = writeln!(out, "{value:#}");
+            Ok(0)
+        }
+        ("oracle", [golden, observed]) => {
+            let golden = read_text(Path::new(golden), config.max_results_bytes)?;
+            let observed = read_text(Path::new(observed), config.max_results_bytes)?;
+            let (results, summary) = oracle::compare(&golden, &observed, &config)?;
+            let _ = write!(out, "{}", oracle::render_results(&results));
+            let _ = writeln!(
+                out,
+                "# agreed {} differed {} extra {}",
+                summary.agreed, summary.differed, summary.extra
+            );
+            Ok(if summary.differed == 0 { 0 } else { 1 })
+        }
         ("baseline", [results]) => {
             let results = parse_results(
                 &read_text(Path::new(results), config.max_results_bytes)?,
@@ -325,5 +357,68 @@ mod tests {
             .0,
             2
         );
+    }
+
+    #[test]
+    fn the_corpus_commands_print_counts_and_no_names() {
+        let src = tempfile::tempdir().unwrap();
+        let out = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(src.path().join("private_folder")).unwrap();
+        std::fs::write(
+            src.path().join("private_folder/secret_name.brd"),
+            b"<?xml version=\"1.0\"?><eagle version=\"9.5.2\"></eagle>",
+        )
+        .unwrap();
+        let dir = src.path().to_str().unwrap();
+        let (code, json, err) = call(&["corpus-inventory", dir]);
+        assert_eq!((code, err.as_str()), (0, ""), "{err}");
+        assert!(json.contains("xml 9.5.2") && json.contains("\"design_files\": 1"));
+        assert!(!json.contains("private_folder") && !json.contains("secret_name"));
+        let target = out.path().join("copy");
+        let (code, json, err) = call(&["corpus-copy", dir, target.to_str().unwrap()]);
+        assert_eq!((code, err.as_str()), (0, ""), "{err}");
+        assert!(json.contains("\"copied\": 1") && !json.contains("secret_name"));
+        assert!(target.join("SHA256SUMS").is_file());
+        // a second copy into the same place is refused, and so is a copy inside the original
+        let (code, _, err) = call(&["corpus-copy", dir, target.to_str().unwrap()]);
+        assert_eq!(code, 2);
+        assert!(err.contains("inside the original"), "{err}");
+        let inner = src.path().join("inside");
+        let (code, _, _) = call(&["corpus-copy", dir, inner.to_str().unwrap()]);
+        assert_eq!(code, 2);
+        assert!(!inner.exists());
+        assert_eq!(call(&["corpus-inventory"]).0, 2);
+    }
+
+    #[test]
+    fn the_oracle_command_compares_and_its_output_feeds_the_gate() {
+        let work = tempfile::tempdir().unwrap();
+        let golden = work.path().join("golden.tsv");
+        let same = work.path().join("same.tsv");
+        let worse = work.path().join("worse.tsv");
+        fs::write(&golden, "a\tL0:opens-clean\ttrue\na\tL3:drc-errors\t0\n").unwrap();
+        fs::write(&same, "a\tL0:opens-clean\ttrue\na\tL3:drc-errors\t0\n").unwrap();
+        fs::write(
+            &worse,
+            "a\tL0:opens-clean\ttrue\na\tL3:drc-errors\t2\tphoenix-error\n",
+        )
+        .unwrap();
+        let (code, results, err) = call(&["oracle", golden.to_str().unwrap(), same.to_str().unwrap()]);
+        assert_eq!((code, err.as_str()), (0, ""), "{err}");
+        let first = work.path().join("first.tsv");
+        fs::write(&first, &results).unwrap();
+        let (_, base, _) = call(&["baseline", first.to_str().unwrap()]);
+        let base_path = work.path().join("base.json");
+        fs::write(&base_path, base).unwrap();
+        let (code, results, _) = call(&["oracle", golden.to_str().unwrap(), worse.to_str().unwrap()]);
+        assert_eq!(code, 1);
+        assert!(results.contains("a\tL3\tfail:phoenix-error"), "{results}");
+        let second = work.path().join("second.tsv");
+        fs::write(&second, &results).unwrap();
+        let (code, _, _) = call(&["gate", base_path.to_str().unwrap(), second.to_str().unwrap()]);
+        assert_eq!(code, 1, "a level that passed before and fails now stops the gate");
+        let bad = work.path().join("bad.tsv");
+        fs::write(&bad, "a\tL3:drc-errors\t2\n").unwrap();
+        assert_eq!(call(&["oracle", golden.to_str().unwrap(), bad.to_str().unwrap()]).0, 2);
     }
 }

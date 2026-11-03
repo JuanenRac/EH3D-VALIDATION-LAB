@@ -10,10 +10,12 @@
 pub mod classify;
 pub mod cli;
 pub mod config;
+pub mod corpus;
 pub mod error;
 pub mod gate;
 pub mod hash;
 pub mod manifest;
+pub mod oracle;
 pub mod verify;
 
 pub use error::LabError;

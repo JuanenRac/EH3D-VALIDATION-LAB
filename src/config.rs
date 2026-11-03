@@ -25,6 +25,10 @@ pub struct Config {
     pub fail_on_new_failure: bool,
     /// When true, a case of the baseline that is missing now fails the gate.
     pub fail_on_missing_case: bool,
+    /// The extensions of the files a corpus run reads and copies (any of `lbr`, `sch`, `brd`).
+    pub corpus_extensions: Vec<String>,
+    /// How many bytes of the start of a design file are looked at to tell its family and version.
+    pub corpus_head_bytes: usize,
 }
 
 impl Default for Config {
@@ -39,6 +43,8 @@ impl Default for Config {
             report_salt: String::new(),
             fail_on_new_failure: true,
             fail_on_missing_case: true,
+            corpus_extensions: vec!["lbr".into(), "sch".into(), "brd".into()],
+            corpus_head_bytes: 4096,
         }
     }
 }
@@ -81,6 +87,27 @@ impl Config {
                 }
                 "fail_on_missing_case" => {
                     config.fail_on_missing_case = parse_bool(value).ok_or_else(bad)?
+                }
+                "corpus_extensions" => {
+                    let list: Vec<String> = value
+                        .split(',')
+                        .map(|e| e.trim().to_ascii_lowercase())
+                        .collect();
+                    if list.is_empty()
+                        || list
+                            .iter()
+                            .any(|e| !matches!(e.as_str(), "lbr" | "sch" | "brd"))
+                    {
+                        return Err(bad());
+                    }
+                    config.corpus_extensions = list;
+                }
+                "corpus_head_bytes" => {
+                    let n: usize = value.parse().map_err(|_| bad())?;
+                    if !(16..=1_048_576).contains(&n) {
+                        return Err(bad());
+                    }
+                    config.corpus_head_bytes = n;
                 }
                 _ => {
                     return Err(LabError::ConfigUnknownKey {
