@@ -2,7 +2,7 @@
   "schema_version": "1.1",
   "ecosystem": "EH3D",
   "name": "EH3D-VALIDATION-LAB",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "role": "tool",
   "stack": "rust",
   "technologies": [
@@ -17,7 +17,7 @@
   "family": "PHOENIX",
   "parent": null,
   "build": "cargo build --release; cargo test",
-  "notes": "Scaffolding v0.0.1: early code. Test environment of the PHOENIX family: a Rust library and command line that write and verify the checksum manifest of a golden set against redundant copies, read results in which every failure carries a class, and compare a run with a baseline through a gate that a measured rate never drops. Reports hide the names of cases. It has only run on data made by its own tests; it reads no design file and the comparison with golden files, the case reducer and the invariant tests are planned.",
+  "notes": "Scaffolding v0.0.2: early code. Test environment of the PHOENIX family: a Rust library and command line that write and verify the checksum manifest of a golden set against redundant copies, read results in which every failure carries a class, and compare a run with a baseline through a gate that a measured rate never drops. Reports hide the names of cases. It has only run on data made by its own tests; it reads no design file and the comparison with golden files, the case reducer and the invariant tests are planned.",
   "native_version": {
     "file": "VERSION",
     "pattern": "^(\\d+\\.\\d+\\.\\d+)"
