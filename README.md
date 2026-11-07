@@ -12,14 +12,14 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/Stack-Rust%20%2B%20Python-blue.svg" alt="Rust and Python">
   <img src="https://img.shields.io/badge/Languages-8-00E5FF.svg" alt="Languages">
-  <img src="https://img.shields.io/badge/Tests-44-2EA043.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-63-2EA043.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.0.2-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-scaffolding-FFB020.svg" alt="Maturity">
 </p>
 
 ---
 
-**Honesty check - what actually runs today:** a small Rust library and command line that write and verify the checksum manifest of a golden set against redundant copies, read results files in which every failure must carry a class, and compare a run with a baseline through a gate. It has 41 tests of its own and they pass on a computer. It has only been used on data made by its own tests: never on a real corpus or a real golden set. It reads no design file, runs no reference tool and does not compare the output of any design tool yet. The case reducer, the invariant tests and the comparison with golden files do not exist.
+**Honesty check - what actually runs today:** a small Rust library and command line that write and verify the checksum manifest of a golden set against redundant copies, read results files in which every failure must carry a class, and compare a run with a baseline through a gate. It has 60 tests of its own and they pass on a computer. It has only been used on data made by its own tests: never on a real corpus or a real golden set. It reads no design file, runs no reference tool and does not compare the output of any design tool yet. The case reducer, the invariant tests and the comparison with golden files do not exist.
 
 ---
 
@@ -31,7 +31,7 @@
 |---|---|
 | Version | `0.0.2` |
 | Maturity | Scaffolding |
-| Tests | 44 |
+| Tests | 63 |
 | Stack | Rust, Python 3.10+ |
 | On real hardware | Not run on hardware yet |
 
@@ -46,7 +46,7 @@ Each line is one part of this repository and the light says how far it is today.
 | Area | State | What it means here |
 |---|---|---|
 | Repository checks | 🟡 | The repository check, the check of the pictures and the 3 tests of the base run in CI and pass. |
-| Tests | 🟡 | The 41 tests of the Rust code and the 3 of the base pass on a computer. They use only data made by the tests themselves; none has run on a real corpus. |
+| Tests | 🟡 | The 60 tests of the Rust code and the 3 of the base pass on a computer. They use only data made by the tests themselves; none has run on a real corpus. |
 | Real hardware | 🟠 | Not run on any machine or board: nothing here has been tried on hardware. |
 | Planned function | 🟠 | Written: manifests of golden sets, verification of copies, classified results and the gate. Not written: the comparison with golden files, the case reducer and the invariant tests. |
 | Requirements | 🟠 | 4 of 6 requirements are at prototype, 2 are only planned and none is validated. |
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Testing
 
-The code has 41 tests (`cargo test`) and the base has 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); all pass on a computer. The CI runs the repository check, the check of the pictures, the tests of the base and, for the Rust code, the format check, clippy with warnings as errors and the tests on Linux and Windows.
+The code has 60 tests (`cargo test`) and the base has 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); all pass on a computer. The CI runs the repository check, the check of the pictures, the tests of the base and, for the Rust code, the format check, clippy with warnings as errors and the tests on Linux and Windows.
 
 ## 🏗️ Build & Release
 

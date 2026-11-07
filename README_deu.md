@@ -12,14 +12,14 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/Stack-Rust%20%2B%20Python-blue.svg" alt="Rust and Python">
   <img src="https://img.shields.io/badge/Languages-8-00E5FF.svg" alt="Languages">
-  <img src="https://img.shields.io/badge/Tests-44-2EA043.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-63-2EA043.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.0.2-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-scaffolding-FFB020.svg" alt="Maturity">
 </p>
 
 ---
 
-**Ehrlichkeitscheck - was heute tatsächlich läuft:** eine kleine Rust-Bibliothek mit Kommandozeile, die das Prüfsummen-Manifest eines Referenzsatzes schreibt und gegen redundante Kopien prüft, Ergebnisdateien liest, in denen jeder Fehler eine Klasse tragen muss, und einen Lauf über ein Tor mit einer Ausgangsbasis vergleicht. Sie hat 41 eigene Tests, die auf einem Rechner bestehen. Sie wurde nur mit Daten benutzt, die ihre eigenen Tests erzeugen: nie mit einem echten Korpus oder einem echten Referenzsatz. Sie liest keine Entwurfsdatei, startet kein Referenzwerkzeug und vergleicht noch keine Ausgabe eines Entwurfswerkzeugs. Der Fallreduzierer, die Invariantentests und der Vergleich mit Referenzdateien existieren nicht.
+**Ehrlichkeitscheck - was heute tatsächlich läuft:** eine kleine Rust-Bibliothek mit Kommandozeile, die das Prüfsummen-Manifest eines Referenzsatzes schreibt und gegen redundante Kopien prüft, Ergebnisdateien liest, in denen jeder Fehler eine Klasse tragen muss, und einen Lauf über ein Tor mit einer Ausgangsbasis vergleicht. Sie hat 60 eigene Tests, die auf einem Rechner bestehen. Sie wurde nur mit Daten benutzt, die ihre eigenen Tests erzeugen: nie mit einem echten Korpus oder einem echten Referenzsatz. Sie liest keine Entwurfsdatei, startet kein Referenzwerkzeug und vergleicht noch keine Ausgabe eines Entwurfswerkzeugs. Der Fallreduzierer, die Invariantentests und der Vergleich mit Referenzdateien existieren nicht.
 
 ---
 
@@ -31,7 +31,7 @@
 |---|---|
 | Version | `0.0.2` |
 | Reifegrad | Gerüst |
-| Tests | 44 |
+| Tests | 63 |
 | Technologie-Stack | Rust, Python 3.10+ |
 | Auf echter Hardware | Noch nicht auf Hardware ausgeführt |
 
@@ -46,7 +46,7 @@ Jede Zeile ist ein Teil dieses Repositorys, und die Ampel sagt, wie weit er heut
 | Bereich | Stand | Was das hier bedeutet |
 |---|---|---|
 | Repository-Prüfungen | 🟡 | Die Repository-Prüfung, die Prüfung der Bilder und die 3 Tests der Basis laufen in der CI und bestehen. |
-| Tests | 🟡 | Die 41 Tests des Rust-Codes und die 3 der Basis bestehen auf einem Rechner. Sie verwenden nur Daten, die die Tests selbst erzeugen; keiner lief auf einem echten Korpus. |
+| Tests | 🟡 | Die 60 Tests des Rust-Codes und die 3 der Basis bestehen auf einem Rechner. Sie verwenden nur Daten, die die Tests selbst erzeugen; keiner lief auf einem echten Korpus. |
 | Echte Hardware | 🟠 | Auf keiner Maschine und keiner Platine ausgeführt: nichts hier wurde auf Hardware ausprobiert. |
 | Geplante Funktion | 🟠 | Geschrieben: Manifeste von Referenzsätzen, Prüfung der Kopien, klassifizierte Ergebnisse und das Tor. Nicht geschrieben: der Vergleich mit Referenzdateien, der Fallreduzierer und die Invariantentests. |
 | Anforderungen | 🟠 | 4 von 6 Anforderungen sind im Prototypstand, 2 sind nur geplant und keine ist validiert. |
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Tests
 
-Der Code hat 41 Tests (`cargo test`), die Basis hat 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); alle bestehen auf einem Rechner. Die CI führt die Repository-Prüfung, die Prüfung der Bilder, die Tests der Basis und für den Rust-Code die Formatprüfung, clippy mit Warnungen als Fehlern und die Tests unter Linux und Windows aus.
+Der Code hat 60 Tests (`cargo test`), die Basis hat 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); alle bestehen auf einem Rechner. Die CI führt die Repository-Prüfung, die Prüfung der Bilder, die Tests der Basis und für den Rust-Code die Formatprüfung, clippy mit Warnungen als Fehlern und die Tests unter Linux und Windows aus.
 
 ## 🏗️ Build und Veröffentlichung
 

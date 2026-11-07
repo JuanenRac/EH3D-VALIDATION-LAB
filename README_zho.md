@@ -12,14 +12,14 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/Stack-Rust%20%2B%20Python-blue.svg" alt="Rust and Python">
   <img src="https://img.shields.io/badge/Languages-8-00E5FF.svg" alt="Languages">
-  <img src="https://img.shields.io/badge/Tests-44-2EA043.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-63-2EA043.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.0.2-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-scaffolding-FFB020.svg" alt="Maturity">
 </p>
 
 ---
 
-**诚实性核对 - 今天真正能运行的内容：** 一个小型 Rust 库及命令行，可编写并对照冗余副本校验基准文件集的校验和清单，读取要求每个失败都必须带有类别的结果文件，并通过关卡把一次运行与基线进行比较。它有 41 个自己的测试，在计算机上通过。它只用过自己的测试生成的数据：从未用于真实语料库或真实的基准文件集。它不读取任何设计文件，不运行任何参考工具，也还不比较任何设计工具的输出。案例精简器、不变量测试以及与基准文件的比较尚不存在。
+**诚实性核对 - 今天真正能运行的内容：** 一个小型 Rust 库及命令行，可编写并对照冗余副本校验基准文件集的校验和清单，读取要求每个失败都必须带有类别的结果文件，并通过关卡把一次运行与基线进行比较。它有 60 个自己的测试，在计算机上通过。它只用过自己的测试生成的数据：从未用于真实语料库或真实的基准文件集。它不读取任何设计文件，不运行任何参考工具，也还不比较任何设计工具的输出。案例精简器、不变量测试以及与基准文件的比较尚不存在。
 
 ---
 
@@ -31,7 +31,7 @@
 |---|---|
 | 版本 | `0.0.2` |
 | 成熟度 | 脚手架 |
-| 测试 | 44 |
+| 测试 | 63 |
 | 技术栈 | Rust, Python 3.10+ |
 | 真实硬件 | 尚未在硬件上运行 |
 
@@ -46,7 +46,7 @@
 | 领域 | 状态 | 在这里的含义 |
 |---|---|---|
 | 仓库检查 | 🟡 | 仓库检查、图片检查以及基础部分的 3 个测试都在 CI 中运行并通过。 |
-| 测试 | 🟡 | Rust 代码的 41 个测试和基础部分的 3 个测试在计算机上通过。它们只使用测试自己生成的数据；没有任何一个在真实语料库上运行过。 |
+| 测试 | 🟡 | Rust 代码的 60 个测试和基础部分的 3 个测试在计算机上通过。它们只使用测试自己生成的数据；没有任何一个在真实语料库上运行过。 |
 | 真实硬件 | 🟠 | 没有在任何机床或电路板上运行过：这里没有任何内容在硬件上试过。 |
 | 计划的功能 | 🟠 | 已编写：基准文件集的清单、副本校验、分类的结果以及关卡。未编写：与基准文件的比较、案例精简器和不变量测试。 |
 | 需求 | 🟠 | 6 项需求中有 4 项处于原型阶段，2 项仅为计划，没有一项已验证。 |
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 测试
 
-代码有 41 个测试（`cargo test`），基础部分有 3 个（`python -I -m unittest discover -s tools -p "test_*.py"`）；全部在计算机上通过。CI 运行仓库检查、图片检查、基础部分的测试，并对 Rust 代码在 Linux 和 Windows 上运行格式检查、把警告当作错误的 clippy 以及测试。
+代码有 60 个测试（`cargo test`），基础部分有 3 个（`python -I -m unittest discover -s tools -p "test_*.py"`）；全部在计算机上通过。CI 运行仓库检查、图片检查、基础部分的测试，并对 Rust 代码在 Linux 和 Windows 上运行格式检查、把警告当作错误的 clippy 以及测试。
 
 ## 🏗️ 构建与发布
 

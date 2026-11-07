@@ -19,6 +19,6 @@ The official state of each capability is in REQUIREMENTS.md: 6 requirements: 4 `
 
 ## Known technical debt and omitted tests
 
-* 41 tests of the Rust code and 3 of the base; the Rust tests build their own folders and results and never touch a real project.
+* 60 tests of the Rust code and 3 of the base; the Rust tests build their own folders and results and never touch a real project.
 * Not tested: very large golden sets (millions of files), folders synchronised by a cloud service, copies on removable media that disappear during a run, and links inside a golden set (they are refused, which is tested).
 * `cargo deny` is not run yet.

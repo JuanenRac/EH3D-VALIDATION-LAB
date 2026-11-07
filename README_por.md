@@ -12,14 +12,14 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/Stack-Rust%20%2B%20Python-blue.svg" alt="Rust and Python">
   <img src="https://img.shields.io/badge/Languages-8-00E5FF.svg" alt="Languages">
-  <img src="https://img.shields.io/badge/Tests-44-2EA043.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-63-2EA043.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.0.2-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-scaffolding-FFB020.svg" alt="Maturity">
 </p>
 
 ---
 
-**Verificação de honestidade - o que funciona hoje:** uma pequena biblioteca Rust com linha de comandos que escreve e verifica o manifesto de somas de controlo de um conjunto de referência contra cópias redundantes, lê ficheiros de resultados em que toda a falha tem de levar uma classe e compara uma execução com uma base de partida através de uma barreira. Tem 41 testes próprios, que passam num computador. Só foi usada com dados criados pelos seus próprios testes: nunca com um corpus real nem com um conjunto de referência real. Não lê nenhum ficheiro de projeto, não executa nenhuma ferramenta de referência e ainda não compara a saída de nenhuma ferramenta de projeto. O redutor de casos, os testes de invariantes e a comparação com ficheiros de referência não existem.
+**Verificação de honestidade - o que funciona hoje:** uma pequena biblioteca Rust com linha de comandos que escreve e verifica o manifesto de somas de controlo de um conjunto de referência contra cópias redundantes, lê ficheiros de resultados em que toda a falha tem de levar uma classe e compara uma execução com uma base de partida através de uma barreira. Tem 60 testes próprios, que passam num computador. Só foi usada com dados criados pelos seus próprios testes: nunca com um corpus real nem com um conjunto de referência real. Não lê nenhum ficheiro de projeto, não executa nenhuma ferramenta de referência e ainda não compara a saída de nenhuma ferramenta de projeto. O redutor de casos, os testes de invariantes e a comparação com ficheiros de referência não existem.
 
 ---
 
@@ -31,7 +31,7 @@
 |---|---|
 | Versão | `0.0.2` |
 | Maturidade | Estrutura inicial |
-| Testes | 44 |
+| Testes | 63 |
 | Tecnologias | Rust, Python 3.10+ |
 | Em hardware real | Ainda não executado em hardware |
 
@@ -46,7 +46,7 @@ Cada linha é uma parte deste repositório e a luz diz até onde chega hoje. É 
 | Área | Estado | O que significa aqui |
 |---|---|---|
 | Verificações do repositório | 🟡 | A verificação do repositório, a das imagens e os 3 testes da base correm na CI e passam. |
-| Testes | 🟡 | Os 41 testes do código Rust e os 3 da base passam num computador. Usam apenas dados criados pelos próprios testes; nenhum foi executado com um corpus real. |
+| Testes | 🟡 | Os 60 testes do código Rust e os 3 da base passam num computador. Usam apenas dados criados pelos próprios testes; nenhum foi executado com um corpus real. |
 | Hardware real | 🟠 | Não foi executado em nenhuma máquina nem placa: nada aqui foi experimentado em hardware. |
 | Função planeada | 🟠 | Escrito: manifestos de conjuntos de referência, verificação de cópias, resultados classificados e a barreira. Por escrever: a comparação com ficheiros de referência, o redutor de casos e os testes de invariantes. |
 | Requisitos | 🟠 | 4 de 6 requisitos estão em protótipo, 2 estão apenas planeados e nenhum está validado. |
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Testes
 
-O código tem 41 testes (`cargo test`) e a base tem 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); todos passam num computador. A CI executa a verificação do repositório, a das imagens, os testes da base e, para o código Rust, a verificação do formato, o clippy com os avisos tratados como erros e os testes em Linux e Windows.
+O código tem 60 testes (`cargo test`) e a base tem 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); todos passam num computador. A CI executa a verificação do repositório, a das imagens, os testes da base e, para o código Rust, a verificação do formato, o clippy com os avisos tratados como erros e os testes em Linux e Windows.
 
 ## 🏗️ Compilação e publicação
 

@@ -12,14 +12,14 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/Stack-Rust%20%2B%20Python-blue.svg" alt="Rust and Python">
   <img src="https://img.shields.io/badge/Languages-8-00E5FF.svg" alt="Languages">
-  <img src="https://img.shields.io/badge/Tests-44-2EA043.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-63-2EA043.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.0.2-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-scaffolding-FFB020.svg" alt="Maturity">
 </p>
 
 ---
 
-**Verifica di onestà - cosa funziona oggi:** una piccola libreria Rust con riga di comando che scrive e verifica il manifesto delle somme di controllo di un insieme di riferimento rispetto a copie ridondanti, legge file di risultati in cui ogni errore deve avere una classe e confronta un'esecuzione con una base di partenza tramite un cancello. Ha 41 test propri e passano su un computer. È stata usata solo con dati creati dai suoi stessi test: mai su un corpus reale né su un vero insieme di riferimento. Non legge alcun file di progetto, non esegue alcuno strumento di riferimento e non confronta ancora l'output di alcuno strumento di progettazione. Il riduttore di casi, i test degli invarianti e il confronto con i file di riferimento non esistono.
+**Verifica di onestà - cosa funziona oggi:** una piccola libreria Rust con riga di comando che scrive e verifica il manifesto delle somme di controllo di un insieme di riferimento rispetto a copie ridondanti, legge file di risultati in cui ogni errore deve avere una classe e confronta un'esecuzione con una base di partenza tramite un cancello. Ha 60 test propri e passano su un computer. È stata usata solo con dati creati dai suoi stessi test: mai su un corpus reale né su un vero insieme di riferimento. Non legge alcun file di progetto, non esegue alcuno strumento di riferimento e non confronta ancora l'output di alcuno strumento di progettazione. Il riduttore di casi, i test degli invarianti e il confronto con i file di riferimento non esistono.
 
 ---
 
@@ -31,7 +31,7 @@
 |---|---|
 | Versione | `0.0.2` |
 | Maturità | Impalcatura |
-| Test | 44 |
+| Test | 63 |
 | Stack tecnologico | Rust, Python 3.10+ |
 | Su hardware reale | Non ancora eseguito su hardware |
 
@@ -46,7 +46,7 @@ Ogni riga è una parte di questo repository e il semaforo dice a che punto è og
 | Area | Stato | Cosa significa qui |
 |---|---|---|
 | Controlli del repository | 🟡 | Il controllo del repository, quello delle immagini e i 3 test della base girano nella CI e passano. |
-| Test | 🟡 | I 41 test del codice Rust e i 3 della base passano su un computer. Usano solo dati creati dai test stessi; nessuno è stato eseguito su un corpus reale. |
+| Test | 🟡 | I 60 test del codice Rust e i 3 della base passano su un computer. Usano solo dati creati dai test stessi; nessuno è stato eseguito su un corpus reale. |
 | Hardware reale | 🟠 | Non eseguito su nessuna macchina né scheda: nulla qui è stato provato su hardware. |
 | Funzione pianificata | 🟠 | Scritto: manifesti degli insiemi di riferimento, verifica delle copie, risultati classificati e il cancello. Non scritto: il confronto con i file di riferimento, il riduttore di casi e i test degli invarianti. |
 | Requisiti | 🟠 | 4 requisiti su 6 sono a livello di prototipo, 2 sono solo pianificati e nessuno è convalidato. |
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Test
 
-Il codice ha 41 test (`cargo test`) e la base ne ha 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); tutti passano su un computer. La CI esegue il controllo del repository, quello delle immagini, i test della base e, per il codice Rust, il controllo del formato, clippy con gli avvisi trattati come errori e i test su Linux e Windows.
+Il codice ha 60 test (`cargo test`) e la base ne ha 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); tutti passano su un computer. La CI esegue il controllo del repository, quello delle immagini, i test della base e, per il codice Rust, il controllo del formato, clippy con gli avvisi trattati come errori e i test su Linux e Windows.
 
 ## 🏗️ Compilazione e rilascio
 

@@ -12,14 +12,14 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/Stack-Rust%20%2B%20Python-blue.svg" alt="Rust and Python">
   <img src="https://img.shields.io/badge/Languages-8-00E5FF.svg" alt="Languages">
-  <img src="https://img.shields.io/badge/Tests-44-2EA043.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-63-2EA043.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.0.2-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-scaffolding-FFB020.svg" alt="Maturity">
 </p>
 
 ---
 
-**Vérification d'honnêteté - ce qui tourne aujourd'hui :** une petite bibliothèque Rust avec une ligne de commande qui écrit et vérifie le manifeste de sommes de contrôle d'un jeu de référence face à des copies redondantes, lit des fichiers de résultats où chaque échec doit porter une classe, et compare une exécution à une base de référence au moyen d'une barrière. Elle a 41 tests propres, qui réussissent sur un ordinateur. Elle n'a servi que sur des données fabriquées par ses propres tests : jamais sur un vrai corpus ni sur un vrai jeu de référence. Elle ne lit aucun fichier de conception, n'exécute aucun outil de référence et ne compare pas encore la sortie d'un outil de conception. Le réducteur de cas, les tests d'invariants et la comparaison avec les fichiers de référence n'existent pas.
+**Vérification d'honnêteté - ce qui tourne aujourd'hui :** une petite bibliothèque Rust avec une ligne de commande qui écrit et vérifie le manifeste de sommes de contrôle d'un jeu de référence face à des copies redondantes, lit des fichiers de résultats où chaque échec doit porter une classe, et compare une exécution à une base de référence au moyen d'une barrière. Elle a 60 tests propres, qui réussissent sur un ordinateur. Elle n'a servi que sur des données fabriquées par ses propres tests : jamais sur un vrai corpus ni sur un vrai jeu de référence. Elle ne lit aucun fichier de conception, n'exécute aucun outil de référence et ne compare pas encore la sortie d'un outil de conception. Le réducteur de cas, les tests d'invariants et la comparaison avec les fichiers de référence n'existent pas.
 
 ---
 
@@ -31,7 +31,7 @@
 |---|---|
 | Version | `0.0.2` |
 | Maturité | Échafaudage |
-| Tests | 44 |
+| Tests | 63 |
 | Pile technique | Rust, Python 3.10+ |
 | Sur du matériel réel | Pas encore exécuté sur du matériel |
 
@@ -46,7 +46,7 @@ Chaque ligne est une partie de ce dépôt et le feu dit où elle en est aujourd'
 | Domaine | État | Ce que cela veut dire ici |
 |---|---|---|
 | Contrôles du dépôt | 🟡 | Le contrôle du dépôt, celui des images et les 3 tests de la base tournent dans la CI et réussissent. |
-| Tests | 🟡 | Les 41 tests du code Rust et les 3 de la base réussissent sur un ordinateur. Ils n'utilisent que des données fabriquées par les tests eux-mêmes ; aucun n'a tourné sur un vrai corpus. |
+| Tests | 🟡 | Les 60 tests du code Rust et les 3 de la base réussissent sur un ordinateur. Ils n'utilisent que des données fabriquées par les tests eux-mêmes ; aucun n'a tourné sur un vrai corpus. |
 | Matériel réel | 🟠 | Non exécuté sur une machine ni une carte : rien ici n'a été essayé sur du matériel. |
 | Fonction prévue | 🟠 | Écrit : manifestes de jeux de référence, vérification des copies, résultats classés et la barrière. Pas écrit : la comparaison avec les fichiers de référence, le réducteur de cas et les tests d'invariants. |
 | Exigences | 🟠 | 4 exigences sur 6 sont au stade de prototype, 2 sont seulement prévues et aucune n'est validée. |
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Tests
 
-Le code a 41 tests (`cargo test`) et la base en a 3 (`python -I -m unittest discover -s tools -p "test_*.py"`) ; tous réussissent sur un ordinateur. La CI exécute le contrôle du dépôt, celui des images, les tests de la base et, pour le code Rust, la vérification du format, clippy avec les avertissements traités comme des erreurs et les tests sous Linux et Windows.
+Le code a 60 tests (`cargo test`) et la base en a 3 (`python -I -m unittest discover -s tools -p "test_*.py"`) ; tous réussissent sur un ordinateur. La CI exécute le contrôle du dépôt, celui des images, les tests de la base et, pour le code Rust, la vérification du format, clippy avec les avertissements traités comme des erreurs et les tests sous Linux et Windows.
 
 ## 🏗️ Compilation et publication
 
