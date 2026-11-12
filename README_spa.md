@@ -113,6 +113,7 @@ EH3D-VALIDATION-LAB/
 ├── src/                                         la biblioteca y la línea de comandos
 ├── config/                                      el fichero de ajustes (todo valor afinado)
 ├── Cargo.toml Cargo.lock                        el paquete de Rust y sus dependencias fijadas
+├── rust-toolchain.toml                          la toolchain de Rust fijada
 ├── tools/                                       la comprobación del repositorio, sus pruebas y las herramientas de las imágenes
 ├── images/                                      banner y las imágenes de Arquitectura y Estructura del repositorio
 ├── .github/                                     flujos de CI y del panel, plantillas de issues y pull requests

@@ -113,6 +113,7 @@ EH3D-VALIDATION-LAB/
 ├── src/                                         库和命令行
 ├── config/                                      设置文件（所有调整值）
 ├── Cargo.toml Cargo.lock                        Rust 包及其锁定的依赖
+├── rust-toolchain.toml                          固定的 Rust 工具链
 ├── tools/                                       仓库检查、其测试以及图片工具
 ├── images/                                      横幅图以及架构和仓库结构图片
 ├── .github/                                     CI 与仪表板工作流、Issue 和 PR 模板
