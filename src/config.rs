@@ -69,11 +69,15 @@ impl Config {
                 key: key.to_string(),
             };
             match key {
-                "min_copies" => config.min_copies = value.parse().map_err(|_| bad())?,
+                "min_copies" => {
+                    config.min_copies = value.parse().ok().filter(|n| *n >= 1).ok_or_else(bad)?
+                }
                 "allow_extra_files" => {
                     config.allow_extra_files = parse_bool(value).ok_or_else(bad)?
                 }
-                "max_entries" => config.max_entries = value.parse().map_err(|_| bad())?,
+                "max_entries" => {
+                    config.max_entries = value.parse().ok().filter(|n| *n >= 1).ok_or_else(bad)?
+                }
                 "max_path_bytes" => config.max_path_bytes = value.parse().map_err(|_| bad())?,
                 "max_manifest_bytes" => {
                     config.max_manifest_bytes = value.parse().map_err(|_| bad())?

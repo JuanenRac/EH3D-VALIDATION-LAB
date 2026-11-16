@@ -107,6 +107,13 @@ fn dispatch(args: &[String], out: &mut dyn Write) -> Result<i32, Failure> {
             let golden = read_text(Path::new(golden), config.max_results_bytes)?;
             let observed = read_text(Path::new(observed), config.max_results_bytes)?;
             let (results, summary) = oracle::compare(&golden, &observed, &config)?;
+            if results.is_empty() {
+                let _ = writeln!(
+                    out,
+                    "# refused: the golden file has no cases, so nothing was compared"
+                );
+                return Ok(1);
+            }
             let _ = write!(out, "{}", oracle::render_results(&results));
             let _ = writeln!(
                 out,
@@ -120,6 +127,14 @@ fn dispatch(args: &[String], out: &mut dyn Write) -> Result<i32, Failure> {
                 &read_text(Path::new(results), config.max_results_bytes)?,
                 &config,
             )?;
+            if results.is_empty() {
+                let _ = writeln!(
+                    out,
+                    "# refused: the results have no cases, so a baseline of them would let every run pass"
+                );
+                return Ok(1);
+            }
+            warn_empty_salt(&config);
             let json = Baseline::from_results(&results, &config).to_json()?;
             let _ = writeln!(out, "{json}");
             Ok(0)
@@ -138,6 +153,13 @@ fn dispatch(args: &[String], out: &mut dyn Write) -> Result<i32, Failure> {
             Ok(if report.passed { 0 } else { 1 })
         }
         _ => Err(Failure::Usage),
+    }
+}
+
+/// The names of the cases appear in the reports only as hashes; with an empty salt anybody can hash a guessed name and compare.
+fn warn_empty_salt(config: &Config) {
+    if config.report_salt.is_empty() {
+        eprintln!("warning: report_salt is empty; set it in the settings file so the hashes of the case names cannot be guessed");
     }
 }
 
@@ -317,6 +339,26 @@ mod tests {
         let (code, report, _) = call(&["gate", base.to_str().unwrap(), second.to_str().unwrap()]);
         assert_eq!(code, 1);
         assert!(report.contains("\"passed\": false"));
+    }
+
+    #[test]
+    fn a_baseline_or_an_oracle_run_without_cases_is_refused() {
+        let work = tempfile::tempdir().unwrap();
+        let empty = work.path().join("empty.tsv");
+        fs::write(&empty, "# nothing\n").unwrap();
+        let (code, out, _) = call(&["baseline", empty.to_str().unwrap()]);
+        assert_eq!(code, 1);
+        assert!(out.contains("refused"), "{out}");
+        let (code, out, _) = call(&["oracle", empty.to_str().unwrap(), empty.to_str().unwrap()]);
+        assert_eq!(code, 1);
+        assert!(out.contains("refused"), "{out}");
+    }
+
+    #[test]
+    fn zero_copies_or_zero_entries_in_the_settings_are_refused() {
+        for bad in ["min_copies = 0", "max_entries = 0"] {
+            assert!(Config::parse(bad).is_err(), "{bad}");
+        }
     }
 
     #[test]
