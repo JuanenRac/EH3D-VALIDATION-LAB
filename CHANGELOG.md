@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A baseline or an oracle run with no cases is refused:** `baseline` and `oracle` exit with 1 and say so when the results or the golden file hold no cases (a baseline of nothing would let every run pass), `min_copies` and `max_entries` must be at least 1 in the settings file, and `baseline` warns on the error output when `report_salt` is empty. Tests cover each.
 - **A simulated laboratory (`sim`):** a golden set made from a seed whose redundant copies fail on purpose (a bit changed, a file gone, an extra file, a folder in place of a file) and are repaired, a tool under test that fails a chosen share of the cases (a larger share fails every case that a smaller one failed, and more), results with cases lost and results cut at every place, and a baseline cut at every place. Nine new tests (69 in all) check that each fault is found in the right copy and that the gate fails for a tool that gets worse, passes for one that does as well or better, reports the cases that never came back and refuses cut results and baselines, over 20 seeds. It has only run on a computer: no corpus and no reference program were used.
 
 ## [0.0.3] - Shared validation checks, split CI workflows and pinned Rust toolchain
