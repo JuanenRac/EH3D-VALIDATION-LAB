@@ -19,7 +19,7 @@
 
 ---
 
-**Vérification d'honnêteté - ce qui tourne aujourd'hui :** une petite bibliothèque Rust avec une ligne de commande qui écrit et vérifie le manifeste de sommes de contrôle d'un jeu de référence face à des copies redondantes, lit des fichiers de résultats où chaque échec doit porter une classe, et compare une exécution à une base de référence au moyen d'une barrière. Elle a 69 tests propres, qui réussissent sur un ordinateur. Elle n'a servi que sur des données fabriquées par ses propres tests : jamais sur un vrai corpus ni sur un vrai jeu de référence. Elle ne lit aucun fichier de conception, n'exécute aucun outil de référence et ne compare pas encore la sortie d'un outil de conception. Le réducteur de cas, les tests d'invariants et la comparaison avec les fichiers de référence n'existent pas.
+**Vérification d'honnêteté - ce qui tourne aujourd'hui :** une petite bibliothèque Rust avec une ligne de commande qui écrit et vérifie le manifeste de sommes de contrôle d'un jeu de référence face à des copies redondantes, lit des fichiers de résultats où chaque échec doit porter une classe, et compare une exécution à une base de référence au moyen d'une barrière. Elle a 80 tests propres, qui réussissent sur un ordinateur. Elle n'a servi que sur des données fabriquées par ses propres tests : jamais sur un vrai corpus ni sur un vrai jeu de référence. Elle ne lit aucun fichier de conception, n'exécute aucun outil de référence et ne compare pas encore la sortie d'un outil de conception. Le réducteur de cas, les tests d'invariants et la comparaison avec les fichiers de référence n'existent pas.
 
 ---
 
@@ -46,7 +46,7 @@ Chaque ligne est une partie de ce dépôt et le feu dit où elle en est aujourd'
 | Domaine | État | Ce que cela veut dire ici |
 |---|---|---|
 | Contrôles du dépôt | 🟡 | Le contrôle du dépôt, celui des images et les 3 tests de la base tournent dans la CI et réussissent. |
-| Tests | 🟡 | Les 69 tests du code Rust et les 3 de la base réussissent sur un ordinateur. Ils n'utilisent que des données fabriquées par les tests eux-mêmes ; aucun n'a tourné sur un vrai corpus. Ils comprennent un jeu de référence simulé dont les copies échouent exprès (un bit changé, un fichier absent, un fichier en trop, un dossier à la place d'un fichier) et un outil simulé qui régresse, perd des cas ou rend des résultats coupés. |
+| Tests | 🟡 | Les 80 tests du code Rust et les 3 de la base réussissent sur un ordinateur. Ils n'utilisent que des données fabriquées par les tests eux-mêmes ; aucun n'a tourné sur un vrai corpus. Ils comprennent un jeu de référence simulé dont les copies échouent exprès (un bit changé, un fichier absent, un fichier en trop, un dossier à la place d'un fichier) et un outil simulé qui régresse, perd des cas ou rend des résultats coupés. |
 | Matériel réel | 🟠 | Non exécuté sur une machine ni une carte : rien ici n'a été essayé sur du matériel. |
 | Fonction prévue | 🟠 | Écrit : manifestes de jeux de référence, vérification des copies, résultats classés et la barrière. Pas écrit : la comparaison avec les fichiers de référence, le réducteur de cas et les tests d'invariants. |
 | Exigences | 🟠 | 4 exigences sur 6 sont au stade de prototype, 2 sont seulement prévues et aucune n'est validée. |
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Tests
 
-Le code a 69 tests (`cargo test`) et la base en a 3 (`python -I -m unittest discover -s tools -p "test_*.py"`) ; tous réussissent sur un ordinateur. La CI exécute le contrôle du dépôt, celui des images, les tests de la base et, pour le code Rust, la vérification du format, clippy avec les avertissements traités comme des erreurs et les tests sous Linux et Windows.
+Le code a 80 tests (`cargo test`) et la base en a 3 (`python -I -m unittest discover -s tools -p "test_*.py"`) ; tous réussissent sur un ordinateur. La CI exécute le contrôle du dépôt, celui des images, les tests de la base et, pour le code Rust, la vérification du format, clippy avec les avertissements traités comme des erreurs et les tests sous Linux et Windows.
 
 ## 🏗️ Compilation et publication
 
@@ -103,7 +103,7 @@ La version se trouve dans le fichier `VERSION` et dans `eh3d.project.json`, et c
 EH3D-VALIDATION-LAB/
 ├── docs/
 │   ├── architecture.json structure.json         les données des deux images
-│   ├── SCOPE.md REQUIREMENTS.md                 son périmètre et ses exigences
+│   ├── SCOPE.md REQUIREMENTS.md                 le périmètre et le registre des exigences avec le test de chacune
 │   ├── DEPENDENCIES.md THREAT_MODEL.md          relations avec d'autres dépôts et modèle de menaces
 │   ├── DECISIONS.md STATUS.md                   décisions applicables ici et état honnête
 │   ├── NOT_YET.md RULES.md                      idées pour plus tard et règles d'écriture du code
@@ -111,6 +111,7 @@ EH3D-VALIDATION-LAB/
 ├── AGENTS.md                                    règles pour quiconque modifie le dépôt
 ├── deny.toml                                    politique de licences et d'avis des dépendances
 ├── src/                                         la bibliothèque et la ligne de commande
+├── tests/                                       le test qui garde vrai le registre des exigences
 ├── config/                                      le fichier de réglages (chaque valeur ajustée)
 ├── Cargo.toml Cargo.lock                        le paquet Rust et ses dépendances figées
 ├── rust-toolchain.toml                          la toolchain Rust épinglée
@@ -151,7 +152,11 @@ Le README et les textes existent en anglais, espagnol, français, italien, allem
 
 * [Les conventions de la suite](https://github.com/JuanenRac/EH3D-DOCS/blob/main/docs/CONVENTIONS.md)
 * [Journal des modifications](CHANGELOG.md)
-* [Périmètre, exigences, dépendances, modèle de menaces et décisions](docs/SCOPE.md)
+* [Périmètre](docs/SCOPE.md): à quoi sert le programme, ce qu'il ne fera pas et ce qu'il ne décide jamais.
+* [Exigences](docs/REQUIREMENTS.md): le registre des capacités, l'état de chacune et le test qui la montre.
+* [État](docs/STATUS.md): ce qui existe, ce qui manque et ce qui reste ouvert.
+* [Pas encore](docs/NOT_YET.md): de bonnes idées laissées de côté dans cette version.
+* [Règles pour modifier le dépôt](AGENTS.md): les règles pour qui modifie le dépôt.
 
 ## 🤝 Contribuer et communauté
 

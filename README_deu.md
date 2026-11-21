@@ -19,7 +19,7 @@
 
 ---
 
-**Ehrlichkeitscheck - was heute tatsächlich läuft:** eine kleine Rust-Bibliothek mit Kommandozeile, die das Prüfsummen-Manifest eines Referenzsatzes schreibt und gegen redundante Kopien prüft, Ergebnisdateien liest, in denen jeder Fehler eine Klasse tragen muss, und einen Lauf über ein Tor mit einer Ausgangsbasis vergleicht. Sie hat 69 eigene Tests, die auf einem Rechner bestehen. Sie wurde nur mit Daten benutzt, die ihre eigenen Tests erzeugen: nie mit einem echten Korpus oder einem echten Referenzsatz. Sie liest keine Entwurfsdatei, startet kein Referenzwerkzeug und vergleicht noch keine Ausgabe eines Entwurfswerkzeugs. Der Fallreduzierer, die Invariantentests und der Vergleich mit Referenzdateien existieren nicht.
+**Ehrlichkeitscheck - was heute tatsächlich läuft:** eine kleine Rust-Bibliothek mit Kommandozeile, die das Prüfsummen-Manifest eines Referenzsatzes schreibt und gegen redundante Kopien prüft, Ergebnisdateien liest, in denen jeder Fehler eine Klasse tragen muss, und einen Lauf über ein Tor mit einer Ausgangsbasis vergleicht. Sie hat 80 eigene Tests, die auf einem Rechner bestehen. Sie wurde nur mit Daten benutzt, die ihre eigenen Tests erzeugen: nie mit einem echten Korpus oder einem echten Referenzsatz. Sie liest keine Entwurfsdatei, startet kein Referenzwerkzeug und vergleicht noch keine Ausgabe eines Entwurfswerkzeugs. Der Fallreduzierer, die Invariantentests und der Vergleich mit Referenzdateien existieren nicht.
 
 ---
 
@@ -46,7 +46,7 @@ Jede Zeile ist ein Teil dieses Repositorys, und die Ampel sagt, wie weit er heut
 | Bereich | Stand | Was das hier bedeutet |
 |---|---|---|
 | Repository-Prüfungen | 🟡 | Die Repository-Prüfung, die Prüfung der Bilder und die 3 Tests der Basis laufen in der CI und bestehen. |
-| Tests | 🟡 | Die 69 Tests des Rust-Codes und die 3 der Basis bestehen auf einem Rechner. Sie verwenden nur Daten, die die Tests selbst erzeugen; keiner lief auf einem echten Korpus. Dazu gehören ein simulierter Referenzsatz, dessen Kopien absichtlich Fehler haben (ein geändertes Bit, eine fehlende Datei, eine zusätzliche Datei, ein Ordner statt einer Datei), und ein simuliertes Werkzeug, das schlechter wird, Fälle verliert oder abgeschnittene Ergebnisse liefert. |
+| Tests | 🟡 | Die 80 Tests des Rust-Codes und die 3 der Basis bestehen auf einem Rechner. Sie verwenden nur Daten, die die Tests selbst erzeugen; keiner lief auf einem echten Korpus. Dazu gehören ein simulierter Referenzsatz, dessen Kopien absichtlich Fehler haben (ein geändertes Bit, eine fehlende Datei, eine zusätzliche Datei, ein Ordner statt einer Datei), und ein simuliertes Werkzeug, das schlechter wird, Fälle verliert oder abgeschnittene Ergebnisse liefert. |
 | Echte Hardware | 🟠 | Auf keiner Maschine und keiner Platine ausgeführt: nichts hier wurde auf Hardware ausprobiert. |
 | Geplante Funktion | 🟠 | Geschrieben: Manifeste von Referenzsätzen, Prüfung der Kopien, klassifizierte Ergebnisse und das Tor. Nicht geschrieben: der Vergleich mit Referenzdateien, der Fallreduzierer und die Invariantentests. |
 | Anforderungen | 🟠 | 4 von 6 Anforderungen sind im Prototypstand, 2 sind nur geplant und keine ist validiert. |
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Tests
 
-Der Code hat 69 Tests (`cargo test`), die Basis hat 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); alle bestehen auf einem Rechner. Die CI führt die Repository-Prüfung, die Prüfung der Bilder, die Tests der Basis und für den Rust-Code die Formatprüfung, clippy mit Warnungen als Fehlern und die Tests unter Linux und Windows aus.
+Der Code hat 80 Tests (`cargo test`), die Basis hat 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); alle bestehen auf einem Rechner. Die CI führt die Repository-Prüfung, die Prüfung der Bilder, die Tests der Basis und für den Rust-Code die Formatprüfung, clippy mit Warnungen als Fehlern und die Tests unter Linux und Windows aus.
 
 ## 🏗️ Build und Veröffentlichung
 
@@ -103,7 +103,7 @@ Die Version steht in der Datei `VERSION` und in `eh3d.project.json`, und jede Ve
 EH3D-VALIDATION-LAB/
 ├── docs/
 │   ├── architecture.json structure.json         die Daten der beiden Bilder
-│   ├── SCOPE.md REQUIREMENTS.md                 Umfang und Anforderungen
+│   ├── SCOPE.md REQUIREMENTS.md                 der Umfang und das Anforderungsregister mit dem Test jeder Anforderung
 │   ├── DEPENDENCIES.md THREAT_MODEL.md          Beziehungen zu anderen Repositories und Bedrohungsmodell
 │   ├── DECISIONS.md STATUS.md                   hier geltende Entscheidungen und ehrlicher Status
 │   ├── NOT_YET.md RULES.md                      Ideen für später und Regeln zum Schreiben von Code
@@ -111,6 +111,7 @@ EH3D-VALIDATION-LAB/
 ├── AGENTS.md                                    Regeln für alle, die das Repository ändern
 ├── deny.toml                                    Lizenz- und Hinweisrichtlinie der Abhängigkeiten
 ├── src/                                         die Bibliothek und die Kommandozeile
+├── tests/                                       der Test, der das Anforderungsregister wahr hält
 ├── config/                                      die Einstellungsdatei (jeder abgestimmte Wert)
 ├── Cargo.toml Cargo.lock                        das Rust-Paket und seine festgelegten Abhängigkeiten
 ├── rust-toolchain.toml                          die festgelegte Rust-Toolchain
@@ -151,7 +152,11 @@ README und Texte gibt es auf Englisch, Spanisch, Französisch, Italienisch, Deut
 
 * [Die Konventionen der Suite](https://github.com/JuanenRac/EH3D-DOCS/blob/main/docs/CONVENTIONS.md)
 * [Änderungsprotokoll](CHANGELOG.md)
-* [Umfang, Anforderungen, Abhängigkeiten, Bedrohungsmodell und Entscheidungen](docs/SCOPE.md)
+* [Umfang](docs/SCOPE.md): wofür das Programm da ist, was es nicht tut und was es nie entscheidet.
+* [Anforderungen](docs/REQUIREMENTS.md): das Register der Fähigkeiten, der Stand jeder einzelnen und der Test, der sie zeigt.
+* [Stand](docs/STATUS.md): was es gibt, was fehlt und was noch offen ist.
+* [Noch nicht](docs/NOT_YET.md): gute Ideen, die in dieser Version fehlen.
+* [Regeln für Änderungen am Repository](AGENTS.md): die Regeln für alle, die das Repository ändern.
 
 ## 🤝 Mitwirken und Community
 

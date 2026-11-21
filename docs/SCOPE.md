@@ -1,39 +1,37 @@
 # EH3D-VALIDATION-LAB: scope
 
-Status: **early code**. EH3D-VALIDATION-LAB has a library and a command line for golden-set manifests, classified results and the rate gate; the rest below is planned. This page says what it does, what it is meant to do, what it will not do, and where it sits. Nothing here has been used on a real corpus or on a machine.
+Status: **early code**. EH3D-VALIDATION-LAB is a library and a command line for the manifests of golden sets, the results in which every failure carries a class and the gate that a measured rate does not drop. It has been tried on data made by its own tests only. This page says what it is for, what it will not do and where it sits among the other programs of the suite.
 
 ## Purpose
 
-EH3D-VALIDATION-LAB is planned as a test environment with reference use cases and regression tests of the system.
+The test environment of the PHOENIX family: a corpus of reference cases with expected results, oracles made of stored golden files with checksums and redundant verified copies, and regression gates for the whole family, in which the exit criterion is a measured, classified rate on a named corpus and never a promise of 100 %.
 
-Test environment of the PHOENIX family: a corpus of reference cases with expected results, oracles made of stored golden files, and regression gates.
+## What it does
 
-## What it does today and what it is planned to do
-
-Written, and tried only on data made by its own tests: the manifest of a golden set and its verification against redundant copies, results files in which every failure carries a class, the gate that a measured rate does not drop, and reports that hide the names of cases. Everything else in this list is planned.
-
-* A corpus of reference cases with expected results, kept as data and runnable from a command line.
-* An oracle made of golden files: results produced by a reference tool while it still works, stored with checksums and redundant verified copies, compared by local scripts.
-* Regression gates for the whole family: the measured rate of each level of agreement must not drop, every failure is classified (error of this project, limitation of the format, or error of the file), and the measured figure is reported.
-* A corpus panel in redacted mode: only codes, counts and levels, never names, values or paths.
-* A case reducer that turns a failure on a real project into a minimal anonymised case that the owner reviews before anyone else sees it.
-* Named tests for the invariants of the design model (identities survive save, migration and reopening; references never dangle; a failed operation leaves the model intact; undo and redo restore the intended state; import and export do not duplicate objects).
-* Templates for physical validation: instrument, condition, result and comparison with the simulation.
+* Writes and verifies the SHA256SUMS manifest of a golden set against redundant copies: a changed byte, a missing file, an extra file and a folder in place of a file are each reported, in the copy where they happen.
+* Reads results files in which every failure carries a class (an error of this project, a limitation of the format, or an error of the file) and refuses an unclassified failure, a repeated line and an unknown level (levels run from L0 to L5).
+* Compares a run with a baseline through a gate: a lower rate fails and names the new failures, rates are compared as exact fractions, dropping failing cases to raise the rate is caught, and a case that used to pass and fails now, or is missing, fails the gate (both can be switched off).
+* Compares what a tool says with a golden file check by check (`oracle`), and writes the results file that the gate reads; a difference needs a class given by the person who looked at it.
+* Counts the design files of a folder by level and by family and version (`corpus-inventory`) and makes a checked working copy of them (`corpus-copy`); the originals are only read.
+* Hides the names of the cases in its reports (an opaque identifier with a salt) and runs a simulated laboratory that fails on purpose.
 
 ## What it will not do
 
-* Private designs and their golden files never enter this repository; they stay on the owner's machines.
-* The reference tool is never run headless or decompiled: its results are produced by hand through its normal interface (a semi-automatic way is to be tested) and stored.
-* No tolerance numbers are invented: they are fixed after the bench has been characterised.
-* No promise of '100 %': the exit criterion is a measured, classified rate on a named corpus.
-
-## Planned shape
-
-A library without a window, written in Rust, with a command-line interface (the commands `manifest`, `verify`, `baseline` and `gate`) and, where it applies, a kind of task for the server (planned). Programs of the suite exchange work through project files or through the server, never by depending on each other.
-
-It is one Rust package with a library and a program. It reads no design file and depends on no other repository of the suite yet.
+* Private designs and their golden files never enter this repository; they stay on the machines of the owner.
+* The reference tool is never run headless or decompiled: its results are produced by hand through its normal interface and stored.
+* It invents no tolerance number: they are fixed after the bench has been characterised.
+* It reads no design file and runs no reference tool; the reader that fills the observed file belongs to the design tool.
+* It does not claim that anything was proven on a real corpus: the evidence of every capability is `simulator` or `host-test`.
 
 ## Where it sits
 
-It belongs to the PHOENIX family of the EH3D Fabrication Suite: independent repositories that relate through versioned contracts. The design tool (EH3D-PHOENIX-PCB) does not depend at build time on the repositories that depend on it.
-See DEPENDENCIES.md for the relations, REQUIREMENTS.md for the requirements and STATUS.md for the honest state.
+* **It reads:** a golden set folder and its redundant copies, a SHA256SUMS manifest, results files, baselines, golden and observed files of the oracle, a folder of design files (for the inventory and the copy) and a settings file.
+* **It writes:** a manifest, a baseline, a results file or a checked working copy that the person asks for; it never writes to a golden set or to an original, and a copy never goes inside the original nor over files.
+* **It is read by:** nothing reads it yet: the continuous integration of the family will run its gate once the design tool fills the observed file.
+* **It depends on:** nothing of the suite at build time; it reads no design file yet.
+
+## What it never decides
+
+Whether a design is right, and the limits, the interlocks and the emergency stop of any machine, belong to the person who designs it and to the machine. A gate that passes says that a measured rate did not drop on a named corpus; it does not say that the tool is correct. Nothing here starts motion.
+
+The requirements of the program, with the state of each and the test that shows it, are in `REQUIREMENTS.md`; the state in a paragraph is in `STATUS.md`.

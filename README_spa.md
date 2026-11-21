@@ -19,7 +19,7 @@
 
 ---
 
-**Comprobación de honestidad - lo que se ejecuta hoy:** una pequeña biblioteca de Rust con línea de comandos que escribe y verifica el manifiesto de sumas de control de un juego dorado contra copias redundantes, lee ficheros de resultados en los que todo fallo debe llevar una clase, y compara una ejecución con una línea base mediante una puerta. Tiene 69 pruebas propias y pasan en un ordenador. Solo se ha usado con datos creados por sus propias pruebas: nunca con un corpus real ni con un juego dorado real. No lee ningún archivo de diseño, no ejecuta ninguna herramienta de referencia y todavía no compara la salida de ninguna herramienta de diseño. El reductor de casos, las pruebas de invariantes y la comparación con archivos dorados no existen.
+**Comprobación de honestidad - lo que se ejecuta hoy:** una pequeña biblioteca de Rust con línea de comandos que escribe y verifica el manifiesto de sumas de control de un juego dorado contra copias redundantes, lee ficheros de resultados en los que todo fallo debe llevar una clase, y compara una ejecución con una línea base mediante una puerta. Tiene 80 pruebas propias y pasan en un ordenador. Solo se ha usado con datos creados por sus propias pruebas: nunca con un corpus real ni con un juego dorado real. No lee ningún archivo de diseño, no ejecuta ninguna herramienta de referencia y todavía no compara la salida de ninguna herramienta de diseño. El reductor de casos, las pruebas de invariantes y la comparación con archivos dorados no existen.
 
 ---
 
@@ -46,7 +46,7 @@ Cada línea es una parte de este repositorio y la luz dice hasta dónde llega ho
 | Área | Estado | Qué significa aquí |
 |---|---|---|
 | Comprobaciones del repositorio | 🟡 | La comprobación del repositorio, la de las imágenes y las 3 pruebas de la base se ejecutan en el CI y pasan. |
-| Pruebas | 🟡 | Las 69 pruebas del código Rust y las 3 de la base pasan en un ordenador. Usan solo datos creados por las propias pruebas; ninguna se ha ejecutado con un corpus real. Incluyen un conjunto de referencia simulado cuyas copias fallan a propósito (un bit cambiado, un archivo ausente, un archivo de más, una carpeta en lugar de un archivo) y una herramienta simulada que empeora, pierde casos o devuelve resultados cortados. |
+| Pruebas | 🟡 | Las 80 pruebas del código Rust y las 3 de la base pasan en un ordenador. Usan solo datos creados por las propias pruebas; ninguna se ha ejecutado con un corpus real. Incluyen un conjunto de referencia simulado cuyas copias fallan a propósito (un bit cambiado, un archivo ausente, un archivo de más, una carpeta en lugar de un archivo) y una herramienta simulada que empeora, pierde casos o devuelve resultados cortados. |
 | Hardware real | 🟠 | No se ha ejecutado en ninguna máquina ni placa: nada de aquí se ha probado en hardware. |
 | Función planificada | 🟠 | Escrito: manifiestos de juegos dorados, verificación de copias, resultados clasificados y la puerta. Sin escribir: la comparación con archivos dorados, el reductor de casos y las pruebas de invariantes. |
 | Requisitos | 🟠 | 4 de 6 requisitos están en prototipo, 2 solo están planificados y ninguno está validado. |
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Pruebas
 
-El código tiene 69 pruebas (`cargo test`) y la base tiene 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); todas pasan en un ordenador. El CI ejecuta la comprobación del repositorio, la de las imágenes, las pruebas de la base y, para el código Rust, la comprobación de formato, clippy con las advertencias como errores y las pruebas en Linux y Windows.
+El código tiene 80 pruebas (`cargo test`) y la base tiene 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); todas pasan en un ordenador. El CI ejecuta la comprobación del repositorio, la de las imágenes, las pruebas de la base y, para el código Rust, la comprobación de formato, clippy con las advertencias como errores y las pruebas en Linux y Windows.
 
 ## 🏗️ Compilación y publicación
 
@@ -103,7 +103,7 @@ La versión vive en el fichero `VERSION` y en `eh3d.project.json`, y cada versi�
 EH3D-VALIDATION-LAB/
 ├── docs/
 │   ├── architecture.json structure.json         los datos de las dos imágenes
-│   ├── SCOPE.md REQUIREMENTS.md                 su alcance y sus requisitos
+│   ├── SCOPE.md REQUIREMENTS.md                 el alcance y el registro de requisitos con la prueba de cada uno
 │   ├── DEPENDENCIES.md THREAT_MODEL.md          relaciones con otros repositorios y modelo de amenazas
 │   ├── DECISIONS.md STATUS.md                   decisiones que se aplican aquí y estado honesto
 │   ├── NOT_YET.md RULES.md                      ideas para más adelante y reglas para escribir código
@@ -111,6 +111,7 @@ EH3D-VALIDATION-LAB/
 ├── AGENTS.md                                    reglas para quien cambia el repositorio
 ├── deny.toml                                    política de licencias y avisos de las dependencias
 ├── src/                                         la biblioteca y la línea de comandos
+├── tests/                                       la prueba que mantiene verdadero el registro de requisitos
 ├── config/                                      el fichero de ajustes (todo valor afinado)
 ├── Cargo.toml Cargo.lock                        el paquete de Rust y sus dependencias fijadas
 ├── rust-toolchain.toml                          la toolchain de Rust fijada
@@ -151,7 +152,11 @@ El README y los textos existen en inglés, español, francés, italiano, alemán
 
 * [Las convenciones de la suite](https://github.com/JuanenRac/EH3D-DOCS/blob/main/docs/CONVENTIONS.md)
 * [Registro de cambios](CHANGELOG.md)
-* [Alcance, requisitos, dependencias, modelo de amenazas y decisiones](docs/SCOPE.md)
+* [Alcance](docs/SCOPE.md): para qué sirve el programa, qué no hará y qué no decide nunca.
+* [Requisitos](docs/REQUIREMENTS.md): el registro de capacidades, el estado de cada una y la prueba que la muestra.
+* [Estado](docs/STATUS.md): qué existe, qué falta y qué sigue abierto.
+* [Todavía no](docs/NOT_YET.md): buenas ideas que quedan fuera de esta versión.
+* [Reglas para cambiar el repositorio](AGENTS.md): las reglas para quien cambie el repositorio.
 
 ## 🤝 Contribuir y comunidad
 

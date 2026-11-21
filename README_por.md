@@ -19,7 +19,7 @@
 
 ---
 
-**Verificação de honestidade - o que funciona hoje:** uma pequena biblioteca Rust com linha de comandos que escreve e verifica o manifesto de somas de controlo de um conjunto de referência contra cópias redundantes, lê ficheiros de resultados em que toda a falha tem de levar uma classe e compara uma execução com uma base de partida através de uma barreira. Tem 69 testes próprios, que passam num computador. Só foi usada com dados criados pelos seus próprios testes: nunca com um corpus real nem com um conjunto de referência real. Não lê nenhum ficheiro de projeto, não executa nenhuma ferramenta de referência e ainda não compara a saída de nenhuma ferramenta de projeto. O redutor de casos, os testes de invariantes e a comparação com ficheiros de referência não existem.
+**Verificação de honestidade - o que funciona hoje:** uma pequena biblioteca Rust com linha de comandos que escreve e verifica o manifesto de somas de controlo de um conjunto de referência contra cópias redundantes, lê ficheiros de resultados em que toda a falha tem de levar uma classe e compara uma execução com uma base de partida através de uma barreira. Tem 80 testes próprios, que passam num computador. Só foi usada com dados criados pelos seus próprios testes: nunca com um corpus real nem com um conjunto de referência real. Não lê nenhum ficheiro de projeto, não executa nenhuma ferramenta de referência e ainda não compara a saída de nenhuma ferramenta de projeto. O redutor de casos, os testes de invariantes e a comparação com ficheiros de referência não existem.
 
 ---
 
@@ -46,7 +46,7 @@ Cada linha é uma parte deste repositório e a luz diz até onde chega hoje. É 
 | Área | Estado | O que significa aqui |
 |---|---|---|
 | Verificações do repositório | 🟡 | A verificação do repositório, a das imagens e os 3 testes da base correm na CI e passam. |
-| Testes | 🟡 | Os 69 testes do código Rust e os 3 da base passam num computador. Usam apenas dados criados pelos próprios testes; nenhum foi executado com um corpus real. Incluem um conjunto de referência simulado cujas cópias falham de propósito (um bit alterado, um ficheiro em falta, um ficheiro a mais, uma pasta no lugar de um ficheiro) e uma ferramenta simulada que piora, perde casos ou devolve resultados cortados. |
+| Testes | 🟡 | Os 80 testes do código Rust e os 3 da base passam num computador. Usam apenas dados criados pelos próprios testes; nenhum foi executado com um corpus real. Incluem um conjunto de referência simulado cujas cópias falham de propósito (um bit alterado, um ficheiro em falta, um ficheiro a mais, uma pasta no lugar de um ficheiro) e uma ferramenta simulada que piora, perde casos ou devolve resultados cortados. |
 | Hardware real | 🟠 | Não foi executado em nenhuma máquina nem placa: nada aqui foi experimentado em hardware. |
 | Função planeada | 🟠 | Escrito: manifestos de conjuntos de referência, verificação de cópias, resultados classificados e a barreira. Por escrever: a comparação com ficheiros de referência, o redutor de casos e os testes de invariantes. |
 | Requisitos | 🟠 | 4 de 6 requisitos estão em protótipo, 2 estão apenas planeados e nenhum está validado. |
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Testes
 
-O código tem 69 testes (`cargo test`) e a base tem 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); todos passam num computador. A CI executa a verificação do repositório, a das imagens, os testes da base e, para o código Rust, a verificação do formato, o clippy com os avisos tratados como erros e os testes em Linux e Windows.
+O código tem 80 testes (`cargo test`) e a base tem 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); todos passam num computador. A CI executa a verificação do repositório, a das imagens, os testes da base e, para o código Rust, a verificação do formato, o clippy com os avisos tratados como erros e os testes em Linux e Windows.
 
 ## 🏗️ Compilação e publicação
 
@@ -103,7 +103,7 @@ A versão vive no ficheiro `VERSION` e em `eh3d.project.json`, e cada versão te
 EH3D-VALIDATION-LAB/
 ├── docs/
 │   ├── architecture.json structure.json         os dados das duas imagens
-│   ├── SCOPE.md REQUIREMENTS.md                 o âmbito e os requisitos
+│   ├── SCOPE.md REQUIREMENTS.md                 o âmbito e o registo de requisitos com o teste de cada um
 │   ├── DEPENDENCIES.md THREAT_MODEL.md          relações com outros repositórios e modelo de ameaças
 │   ├── DECISIONS.md STATUS.md                   decisões que se aplicam aqui e estado honesto
 │   ├── NOT_YET.md RULES.md                      ideias para mais tarde e regras para escrever código
@@ -111,6 +111,7 @@ EH3D-VALIDATION-LAB/
 ├── AGENTS.md                                    regras para quem altera o repositório
 ├── deny.toml                                    política de licenças e avisos das dependências
 ├── src/                                         a biblioteca e a linha de comandos
+├── tests/                                       o teste que mantém verdadeiro o registo de requisitos
 ├── config/                                      o ficheiro de definições (todo o valor ajustado)
 ├── Cargo.toml Cargo.lock                        o pacote Rust e as suas dependências fixadas
 ├── rust-toolchain.toml                          a toolchain de Rust fixada
@@ -151,7 +152,11 @@ O README e os textos existem em inglês, espanhol, francês, italiano, alemão, 
 
 * [As convenções da suite](https://github.com/JuanenRac/EH3D-DOCS/blob/main/docs/CONVENTIONS.md)
 * [Registo de alterações](CHANGELOG.md)
-* [Âmbito, requisitos, dependências, modelo de ameaças e decisões](docs/SCOPE.md)
+* [Âmbito](docs/SCOPE.md): para que serve o programa, o que não fará e o que nunca decide.
+* [Requisitos](docs/REQUIREMENTS.md): o registo das capacidades, o estado de cada uma e o teste que a mostra.
+* [Estado](docs/STATUS.md): o que existe, o que falta e o que continua em aberto.
+* [Ainda não](docs/NOT_YET.md): boas ideias que ficam fora desta versão.
+* [Regras para alterar o repositório](AGENTS.md): as regras para quem altera o repositório.
 
 ## 🤝 Contribuir e comunidade
 

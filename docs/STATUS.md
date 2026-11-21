@@ -2,23 +2,25 @@
 
 ## Current state
 
-EH3D-VALIDATION-LAB is early code. Beside the base that every repository of the suite carries, it has a Rust library and a command line that write and verify the checksum manifest of a golden set against redundant copies, read results files in which every failure carries a class, and compare a run with a baseline through a gate. It also counts the design files of a folder by level and by format version and makes a checked working copy of them (the originals are only read), and compares what a tool says with a golden file. All of it has run only on data made by its own tests, never on a real corpus or a real golden set. It reads no design file, runs no reference tool and does not yet compare the output of any design tool.
+EH3D-VALIDATION-LAB is early code on a computer: a Rust library and a command line that write and verify the checksum manifest of a golden set against redundant copies, read results files in which every failure carries a class, compare a run with a baseline through a gate, count the design files of a folder and make a checked working copy of them, and compare what a tool says with a golden file. A simulated laboratory makes golden sets whose copies fail on purpose and a tool that gets worse. All of it has run only on data made by its own tests, never on a real corpus or a real golden set; it reads no design file, runs no reference tool and does not yet compare the output of any design tool.
 
 ## Capabilities
 
-The official state of each capability is in REQUIREMENTS.md: 6 requirements: 4 `prototype` (VLAB-001, 002, 003 and 006) and 2 `planned` (VLAB-004 and 005). This page never states a state that REQUIREMENTS.md does not.
+The official state of each capability is in `REQUIREMENTS.md`. The register has 49 requirements: 42 implemented, 4 prototype, 3 planned and 0 validated. By progress: 42 done, 4 partial, 2 pending and 1 blocked. This page never states a state that `REQUIREMENTS.md` does not.
 
 ## Open questions
 
-* Which reference tool versions are covered by the first golden sets, and whether a semi-automatic way of producing them works.
+* Which versions of the reference tool the first golden sets cover, and whether a semi-automatic way of producing them works.
+* Where the folder with the originals of the corpus is.
 
-## Needs from other repositories
+## What it needs from other repositories
 
-* EH3D-PHOENIX-PCB: readers and the model to compare
-* EH3D-COMMON: conformance vectors for the container
+* EH3D-PHOENIX-PCB: the readers and the model to compare.
+* EH3D-COMMON: the conformance vectors for the container.
 
 ## Known technical debt and omitted tests
 
-* 69 tests of the Rust code and 3 of the base; the Rust tests build their own folders and results and never touch a real project.
+* 80 tests of the Rust code (nine of them keep this register true) and the 3 of the base; the Rust tests build their own folders and results and never touch a real project.
+* Nine of the tests run the simulated laboratory (`src/lib.rs`).
 * Not tested: very large golden sets (millions of files), folders synchronised by a cloud service, copies on removable media that disappear during a run, and links inside a golden set (they are refused, which is tested).
 * `cargo deny` is not run yet.
