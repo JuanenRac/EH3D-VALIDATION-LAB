@@ -19,7 +19,7 @@
 
 ---
 
-**Honesty check - what actually runs today:** a small Rust library and command line that write and verify the checksum manifest of a golden set against redundant copies, read results files in which every failure must carry a class, and compare a run with a baseline through a gate. It has 80 tests of its own and they pass on a computer. It has only been used on data made by its own tests: never on a real corpus or a real golden set. It reads no design file, runs no reference tool and does not compare the output of any design tool yet. The case reducer, the invariant tests and the comparison with golden files do not exist.
+**Honesty check - what actually runs today:** a small Rust library and command line that write and verify the checksum manifest of a golden set against redundant copies, read results files in which every failure must carry a class, and compare a run with a baseline through a gate. It has 204 tests of its own and they pass on a computer. It has only been used on data made by its own tests: never on a real corpus or a real golden set. It reads no design file, runs no reference tool and does not compare the output of any design tool yet. The case reducer, the invariant tests and the comparison with golden files do not exist.
 
 ---
 
@@ -46,7 +46,7 @@ Each line is one part of this repository and the light says how far it is today.
 | Area | State | What it means here |
 |---|---|---|
 | Repository checks | 🟡 | The repository check, the check of the pictures and the 3 tests of the base run in CI and pass. |
-| Tests | 🟡 | The 80 tests of the Rust code and the 3 of the base pass on a computer. They use only data made by the tests themselves; none has run on a real corpus. They include a simulated golden set whose copies fail on purpose (a bit changed, a file gone, an extra file, a folder in place of a file) and a simulated tool that gets worse, loses cases or returns cut results. |
+| Tests | 🟡 | The 204 tests of the Rust code and the 3 of the base pass on a computer. They use only data made by the tests themselves; none has run on a real corpus. They include a simulated golden set whose copies fail on purpose (a bit changed, a file gone, an extra file, a folder in place of a file) and a simulated tool that gets worse, loses cases or returns cut results. |
 | Real hardware | 🟠 | Not run on any machine or board: nothing here has been tried on hardware. |
 | Planned function | 🟠 | Written: manifests of golden sets, verification of copies, classified results and the gate. Not written: the comparison with golden files, the case reducer and the invariant tests. |
 | Requirements | 🟠 | 4 of 6 requirements are at prototype, 2 are only planned and none is validated. |
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Testing
 
-The code has 80 tests (`cargo test`) and the base has 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); all pass on a computer. The CI runs the repository check, the check of the pictures, the tests of the base and, for the Rust code, the format check, clippy with warnings as errors and the tests on Linux and Windows.
+The code has 204 tests (`cargo test`) and the base has 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); all pass on a computer. The CI runs the repository check, the check of the pictures, the tests of the base and, for the Rust code, the format check, clippy with warnings as errors and the tests on Linux and Windows.
 
 ## 🏗️ Build & Release
 
