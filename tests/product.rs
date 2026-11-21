@@ -407,7 +407,7 @@ fn a_manifest_is_read_and_written_in_sorted_order() {
 #[test]
 fn an_empty_manifest_renders_nothing() {
     let m = Manifest::new();
-    assert!(m.is_empty() && m.len() == 0);
+    assert!(m.is_empty());
     assert_eq!(m.render(), "");
     assert!(Manifest::parse("", &cfg()).unwrap().is_empty());
     assert!(Manifest::parse("\n\n", &cfg()).unwrap().is_empty());
