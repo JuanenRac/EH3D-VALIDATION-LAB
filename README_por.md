@@ -19,7 +19,7 @@
 
 ---
 
-**Verificação de honestidade - o que funciona hoje:** uma pequena biblioteca Rust com linha de comandos que escreve e verifica o manifesto de somas de controlo de um conjunto de referência contra cópias redundantes, lê ficheiros de resultados em que toda a falha tem de levar uma classe e compara uma execução com uma base de partida através de uma barreira. Tem 80 testes próprios, que passam num computador. Só foi usada com dados criados pelos seus próprios testes: nunca com um corpus real nem com um conjunto de referência real. Não lê nenhum ficheiro de projeto, não executa nenhuma ferramenta de referência e ainda não compara a saída de nenhuma ferramenta de projeto. O redutor de casos, os testes de invariantes e a comparação com ficheiros de referência não existem.
+**Verificação de honestidade - o que funciona hoje:** uma pequena biblioteca Rust com linha de comandos que escreve e verifica o manifesto de somas de controlo de um conjunto de referência contra cópias redundantes, lê ficheiros de resultados em que toda a falha tem de levar uma classe e compara uma execução com uma base de partida através de uma barreira. Tem 204 testes próprios, que passam num computador. Só foi usada com dados criados pelos seus próprios testes: nunca com um corpus real nem com um conjunto de referência real. Não lê nenhum ficheiro de projeto, não executa nenhuma ferramenta de referência e ainda não compara a saída de nenhuma ferramenta de projeto. O redutor de casos, os testes de invariantes e a comparação com ficheiros de referência não existem.
 
 ---
 
@@ -46,7 +46,7 @@ Cada linha é uma parte deste repositório e a luz diz até onde chega hoje. É 
 | Área | Estado | O que significa aqui |
 |---|---|---|
 | Verificações do repositório | 🟡 | A verificação do repositório, a das imagens e os 3 testes da base correm na CI e passam. |
-| Testes | 🟡 | Os 80 testes do código Rust e os 3 da base passam num computador. Usam apenas dados criados pelos próprios testes; nenhum foi executado com um corpus real. Incluem um conjunto de referência simulado cujas cópias falham de propósito (um bit alterado, um ficheiro em falta, um ficheiro a mais, uma pasta no lugar de um ficheiro) e uma ferramenta simulada que piora, perde casos ou devolve resultados cortados. |
+| Testes | 🟡 | Os 204 testes do código Rust e os 3 da base passam num computador. Usam apenas dados criados pelos próprios testes; nenhum foi executado com um corpus real. Incluem um conjunto de referência simulado cujas cópias falham de propósito (um bit alterado, um ficheiro em falta, um ficheiro a mais, uma pasta no lugar de um ficheiro) e uma ferramenta simulada que piora, perde casos ou devolve resultados cortados. |
 | Hardware real | 🟠 | Não foi executado em nenhuma máquina nem placa: nada aqui foi experimentado em hardware. |
 | Função planeada | 🟠 | Escrito: manifestos de conjuntos de referência, verificação de cópias, resultados classificados e a barreira. Por escrever: a comparação com ficheiros de referência, o redutor de casos e os testes de invariantes. |
 | Requisitos | 🟠 | 4 de 6 requisitos estão em protótipo, 2 estão apenas planeados e nenhum está validado. |
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Testes
 
-O código tem 80 testes (`cargo test`) e a base tem 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); todos passam num computador. A CI executa a verificação do repositório, a das imagens, os testes da base e, para o código Rust, a verificação do formato, o clippy com os avisos tratados como erros e os testes em Linux e Windows.
+O código tem 204 testes (`cargo test`) e a base tem 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); todos passam num computador. A CI executa a verificação do repositório, a das imagens, os testes da base e, para o código Rust, a verificação do formato, o clippy com os avisos tratados como erros e os testes em Linux e Windows.
 
 ## 🏗️ Compilação e publicação
 
