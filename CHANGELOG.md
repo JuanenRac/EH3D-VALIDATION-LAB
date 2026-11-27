@@ -4,6 +4,10 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **An empty manifest verifies nothing:** `verify` printed PASS for a `SHA256SUMS` that lists no file. It is now refused.
+- **An empty baseline passes nothing:** `gate` let every run pass against a baseline without cases. It is now refused.
+- **1 more test** of the Rust code, for the above.
+
 ## [0.0.4] - Simulated laboratory, requirement register and many more tests
 
 - **Product tests of the behaviour:** `tests/product.rs` adds 124 deterministic tests without changing the behaviour: the levels and failure classes, the results files (every limit at its exact edge, damaged lines with their line number, round trip of a rendered run), the manifest and its unsafe paths, the verification of copies (missing, changed, unreadable and extra files), the gate that a rate never drops (new failures, missing cases, empty runs, independence of the order), the comparison with golden files, the corpus inventory and copy, the seeded simulation and the shape and exit codes of every command.

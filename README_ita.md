@@ -19,7 +19,7 @@
 
 ---
 
-**Verifica di onestà - cosa funziona oggi:** una piccola libreria Rust con riga di comando che scrive e verifica il manifesto delle somme di controllo di un insieme di riferimento rispetto a copie ridondanti, legge file di risultati in cui ogni errore deve avere una classe e confronta un'esecuzione con una base di partenza tramite un cancello. Ha 204 test propri e passano su un computer. È stata usata solo con dati creati dai suoi stessi test: mai su un corpus reale né su un vero insieme di riferimento. Non legge alcun file di progetto, non esegue alcuno strumento di riferimento e non confronta ancora l'output di alcuno strumento di progettazione. Il riduttore di casi, i test degli invarianti e il confronto con i file di riferimento non esistono.
+**Verifica di onestà - cosa funziona oggi:** una piccola libreria Rust con riga di comando che scrive e verifica il manifesto delle somme di controllo di un insieme di riferimento rispetto a copie ridondanti, legge file di risultati in cui ogni errore deve avere una classe e confronta un'esecuzione con una base di partenza tramite un cancello. Ha 205 test propri e passano su un computer. È stata usata solo con dati creati dai suoi stessi test: mai su un corpus reale né su un vero insieme di riferimento. Non legge alcun file di progetto, non esegue alcuno strumento di riferimento e non confronta ancora l'output di alcuno strumento di progettazione. Il riduttore di casi, i test degli invarianti e il confronto con i file di riferimento non esistono.
 
 ---
 
@@ -46,7 +46,7 @@ Ogni riga è una parte di questo repository e il semaforo dice a che punto è og
 | Area | Stato | Cosa significa qui |
 |---|---|---|
 | Controlli del repository | 🟡 | Il controllo del repository, quello delle immagini e i 3 test della base girano nella CI e passano. |
-| Test | 🟡 | I 204 test del codice Rust e i 3 della base passano su un computer. Usano solo dati creati dai test stessi; nessuno è stato eseguito su un corpus reale. Includono un insieme di riferimento simulato le cui copie falliscono di proposito (un bit cambiato, un file mancante, un file in più, una cartella al posto di un file) e uno strumento simulato che peggiora, perde casi o restituisce risultati tagliati. |
+| Test | 🟡 | I 205 test del codice Rust e i 3 della base passano su un computer. Usano solo dati creati dai test stessi; nessuno è stato eseguito su un corpus reale. Includono un insieme di riferimento simulato le cui copie falliscono di proposito (un bit cambiato, un file mancante, un file in più, una cartella al posto di un file) e uno strumento simulato che peggiora, perde casi o restituisce risultati tagliati. |
 | Hardware reale | 🟠 | Non eseguito su nessuna macchina né scheda: nulla qui è stato provato su hardware. |
 | Funzione pianificata | 🟠 | Scritto: manifesti degli insiemi di riferimento, verifica delle copie, risultati classificati e il cancello. Non scritto: il confronto con i file di riferimento, il riduttore di casi e i test degli invarianti. |
 | Requisiti | 🟠 | 4 requisiti su 6 sono a livello di prototipo, 2 sono solo pianificati e nessuno è convalidato. |
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Test
 
-Il codice ha 204 test (`cargo test`) e la base ne ha 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); tutti passano su un computer. La CI esegue il controllo del repository, quello delle immagini, i test della base e, per il codice Rust, il controllo del formato, clippy con gli avvisi trattati come errori e i test su Linux e Windows.
+Il codice ha 205 test (`cargo test`) e la base ne ha 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); tutti passano su un computer. La CI esegue il controllo del repository, quello delle immagini, i test della base e, per il codice Rust, il controllo del formato, clippy con gli avvisi trattati come errori e i test su Linux e Windows.
 
 ## 🏗️ Compilazione e rilascio
 

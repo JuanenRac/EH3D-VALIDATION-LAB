@@ -210,7 +210,8 @@ pub fn evaluate(baseline: &Baseline, results: &[CaseResult], config: &Config) ->
         }
     }
 
-    let passed = levels.iter().all(|l| !l.dropped)
+    let passed = !baseline.cases.is_empty()
+        && levels.iter().all(|l| !l.dropped)
         && (!config.fail_on_new_failure || new_failures.is_empty())
         && (!config.fail_on_missing_case || missing.is_empty());
     GateReport {
