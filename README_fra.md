@@ -19,7 +19,7 @@
 
 ---
 
-**Vérification d'honnêteté - ce qui tourne aujourd'hui :** une petite bibliothèque Rust avec une ligne de commande qui écrit et vérifie le manifeste de sommes de contrôle d'un jeu de référence face à des copies redondantes, lit des fichiers de résultats où chaque échec doit porter une classe, et compare une exécution à une base de référence au moyen d'une barrière. Elle a 206 tests propres, qui réussissent sur un ordinateur. Elle n'a servi que sur des données fabriquées par ses propres tests : jamais sur un vrai corpus ni sur un vrai jeu de référence. Elle ne lit aucun fichier de conception, n'exécute aucun outil de référence et ne compare pas encore la sortie d'un outil de conception. Le réducteur de cas, les tests d'invariants et la comparaison avec les fichiers de référence n'existent pas.
+**Vérification d'honnêteté - ce qui tourne aujourd'hui :** une petite bibliothèque Rust avec une ligne de commande qui écrit et vérifie le manifeste de sommes de contrôle d'un jeu de référence face à des copies redondantes, lit des fichiers de résultats où chaque échec doit porter une classe, et compare une exécution à une base de référence au moyen d'une barrière. Elle a 207 tests propres, qui réussissent sur un ordinateur. Elle n'a servi que sur des données fabriquées par ses propres tests : jamais sur un vrai corpus ni sur un vrai jeu de référence. Elle ne lit aucun fichier de conception, n'exécute aucun outil de référence et ne reprend pas encore de lui-même la sortie d'un outil de conception. La comparaison avec les fichiers de référence (`oracle`) compare, vérification par vérification, les valeurs écrites dans un fichier de référence et dans un fichier observé. Le réducteur de cas et les tests d'invariants n'existent pas.
 
 ---
 
@@ -46,15 +46,15 @@ Chaque ligne est une partie de ce dépôt et le feu dit où elle en est aujourd'
 | Domaine | État | Ce que cela veut dire ici |
 |---|---|---|
 | Contrôles du dépôt | 🟡 | Le contrôle du dépôt, celui des images et les 3 tests de la base tournent dans la CI et réussissent. |
-| Tests | 🟡 | Les 206 tests du code Rust et les 3 de la base réussissent sur un ordinateur. Ils n'utilisent que des données fabriquées par les tests eux-mêmes ; aucun n'a tourné sur un vrai corpus. Ils comprennent un jeu de référence simulé dont les copies échouent exprès (un bit changé, un fichier absent, un fichier en trop, un dossier à la place d'un fichier) et un outil simulé qui régresse, perd des cas ou rend des résultats coupés. |
+| Tests | 🟡 | Les 207 tests du code Rust et les 3 de la base réussissent sur un ordinateur. Ils n'utilisent que des données fabriquées par les tests eux-mêmes ; aucun n'a tourné sur un vrai corpus. Ils comprennent un jeu de référence simulé dont les copies échouent exprès (un bit changé, un fichier absent, un fichier en trop, un dossier à la place d'un fichier) et un outil simulé qui régresse, perd des cas ou rend des résultats coupés. |
 | Matériel réel | 🟠 | Non exécuté sur une machine ni une carte : rien ici n'a été essayé sur du matériel. |
-| Fonction prévue | 🟠 | Écrit : manifestes de jeux de référence, vérification des copies, résultats classés et la barrière. Pas écrit : la comparaison avec les fichiers de référence, le réducteur de cas et les tests d'invariants. |
+| Fonction prévue | 🟠 | Écrit : manifestes de jeux de référence, vérification des copies, résultats classés, la comparaison avec les fichiers de référence et la barrière. Pas écrit : le réducteur de cas et les tests d'invariants. |
 | Exigences | 🟠 | 4 exigences sur 6 sont au stade de prototype, 2 sont seulement prévues et aucune n'est validée. |
 
 ## 🎯 Présentation
 
-* **Ce qui existe :** une bibliothèque et une ligne de commande, sans fenêtre. Elles écrivent et vérifient le manifeste `SHA256SUMS` d'un jeu de référence face à des copies redondantes, lisent des fichiers de résultats où chaque échec porte l'une de trois classes, et comparent une exécution à une base de référence : le taux mesuré de chaque niveau ne doit pas baisser. Les rapports n'affichent que des empreintes, des niveaux, des classes et des comptes.
-* **Prévu :** la comparaison avec les fichiers de référence, le réducteur de cas, les tests nommés des invariants du modèle de conception et, le cas échéant, un type de tâche du serveur. Rien de cela n'existe encore.
+* **Ce qui existe :** une bibliothèque et une ligne de commande, sans fenêtre. Elles écrivent et vérifient le manifeste `SHA256SUMS` d'un jeu de référence face à des copies redondantes, lisent des fichiers de résultats où chaque échec porte l'une de trois classes, et comparent une exécution à une base de référence : le taux mesuré de chaque niveau ne doit pas baisser. Les rapports n'affichent que des empreintes, des niveaux, des classes et des comptes. La commande `oracle` compare, vérification par vérification, un fichier observé à un fichier de référence et écrit le fichier de résultats.
+* **Prévu :** le réducteur de cas, les tests nommés des invariants du modèle de conception et, le cas échéant, un type de tâche du serveur. Rien de cela n'existe encore.
 
 ## 🧩 Rôle dans EH3D
 
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Tests
 
-Le code a 206 tests (`cargo test`) et la base en a 3 (`python -I -m unittest discover -s tools -p "test_*.py"`) ; tous réussissent sur un ordinateur. La CI exécute le contrôle du dépôt, celui des images, les tests de la base et, pour le code Rust, la vérification du format, clippy avec les avertissements traités comme des erreurs et les tests sous Linux et Windows.
+Le code a 207 tests (`cargo test`) et la base en a 3 (`python -I -m unittest discover -s tools -p "test_*.py"`) ; tous réussissent sur un ordinateur. La CI exécute le contrôle du dépôt, celui des images, les tests de la base et, pour le code Rust, la vérification du format, clippy avec les avertissements traités comme des erreurs et les tests sous Linux et Windows.
 
 ## 🏗️ Compilation et publication
 
@@ -133,11 +133,11 @@ EH3D-VALIDATION-LAB/
 
 * Code de départ : il n'a tourné que sur des données fabriquées par ses propres tests, jamais sur un vrai corpus ni sur un vrai jeu de référence.
 * Il vérifie que les copies contiennent les mêmes octets ; les placer sur des supports différents revient au propriétaire.
-* La comparaison avec les fichiers de référence, le réducteur de cas et les tests d'invariants ne sont pas écrits.
+* Le réducteur de cas et les tests d'invariants ne sont pas écrits.
 
 **Prochaine étape**
 
-* Écrire la comparaison avec les fichiers de référence et les tests d'invariants une fois acceptés les contrats dont ce projet dépend (voir `docs/DEPENDENCIES.md`).
+* Écrire les tests d'invariants une fois acceptés les contrats dont ce projet dépend (voir `docs/DEPENDENCIES.md`).
 
 ## 🌍 Langues
 

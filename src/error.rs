@@ -82,6 +82,12 @@ pub enum LabError {
         /// 1-based line number.
         line: usize,
     },
+    /// The case name of a golden or observed file holds a control character or a line separator.
+    #[error("oracle line {line}: the case name holds a control character")]
+    ControlInName {
+        /// 1-based line number.
+        line: usize,
+    },
     /// A working copy was asked for in a place that is not safe: inside the original folder, around it, or over files that are already there.
     #[error("the target of the copy is inside the original, around it, or not empty")]
     UnsafeTarget,

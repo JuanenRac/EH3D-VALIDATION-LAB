@@ -19,7 +19,7 @@
 
 ---
 
-**Ehrlichkeitscheck - was heute tatsächlich läuft:** eine kleine Rust-Bibliothek mit Kommandozeile, die das Prüfsummen-Manifest eines Referenzsatzes schreibt und gegen redundante Kopien prüft, Ergebnisdateien liest, in denen jeder Fehler eine Klasse tragen muss, und einen Lauf über ein Tor mit einer Ausgangsbasis vergleicht. Sie hat 206 eigene Tests, die auf einem Rechner bestehen. Sie wurde nur mit Daten benutzt, die ihre eigenen Tests erzeugen: nie mit einem echten Korpus oder einem echten Referenzsatz. Sie liest keine Entwurfsdatei, startet kein Referenzwerkzeug und vergleicht noch keine Ausgabe eines Entwurfswerkzeugs. Der Fallreduzierer, die Invariantentests und der Vergleich mit Referenzdateien existieren nicht.
+**Ehrlichkeitscheck - was heute tatsächlich läuft:** eine kleine Rust-Bibliothek mit Kommandozeile, die das Prüfsummen-Manifest eines Referenzsatzes schreibt und gegen redundante Kopien prüft, Ergebnisdateien liest, in denen jeder Fehler eine Klasse tragen muss, und einen Lauf über ein Tor mit einer Ausgangsbasis vergleicht. Sie hat 207 eigene Tests, die auf einem Rechner bestehen. Sie wurde nur mit Daten benutzt, die ihre eigenen Tests erzeugen: nie mit einem echten Korpus oder einem echten Referenzsatz. Sie liest keine Entwurfsdatei, startet kein Referenzwerkzeug und übernimmt noch keine Ausgabe eines Entwurfswerkzeugs selbst. Der Vergleich mit Referenzdateien (`oracle`) vergleicht Prüfung für Prüfung die Werte einer Referenzdatei und einer Datei mit den beobachteten Werten. Der Fallreduzierer und die Invariantentests existieren nicht.
 
 ---
 
@@ -46,15 +46,15 @@ Jede Zeile ist ein Teil dieses Repositorys, und die Ampel sagt, wie weit er heut
 | Bereich | Stand | Was das hier bedeutet |
 |---|---|---|
 | Repository-Prüfungen | 🟡 | Die Repository-Prüfung, die Prüfung der Bilder und die 3 Tests der Basis laufen in der CI und bestehen. |
-| Tests | 🟡 | Die 206 Tests des Rust-Codes und die 3 der Basis bestehen auf einem Rechner. Sie verwenden nur Daten, die die Tests selbst erzeugen; keiner lief auf einem echten Korpus. Dazu gehören ein simulierter Referenzsatz, dessen Kopien absichtlich Fehler haben (ein geändertes Bit, eine fehlende Datei, eine zusätzliche Datei, ein Ordner statt einer Datei), und ein simuliertes Werkzeug, das schlechter wird, Fälle verliert oder abgeschnittene Ergebnisse liefert. |
+| Tests | 🟡 | Die 207 Tests des Rust-Codes und die 3 der Basis bestehen auf einem Rechner. Sie verwenden nur Daten, die die Tests selbst erzeugen; keiner lief auf einem echten Korpus. Dazu gehören ein simulierter Referenzsatz, dessen Kopien absichtlich Fehler haben (ein geändertes Bit, eine fehlende Datei, eine zusätzliche Datei, ein Ordner statt einer Datei), und ein simuliertes Werkzeug, das schlechter wird, Fälle verliert oder abgeschnittene Ergebnisse liefert. |
 | Echte Hardware | 🟠 | Auf keiner Maschine und keiner Platine ausgeführt: nichts hier wurde auf Hardware ausprobiert. |
-| Geplante Funktion | 🟠 | Geschrieben: Manifeste von Referenzsätzen, Prüfung der Kopien, klassifizierte Ergebnisse und das Tor. Nicht geschrieben: der Vergleich mit Referenzdateien, der Fallreduzierer und die Invariantentests. |
+| Geplante Funktion | 🟠 | Geschrieben: Manifeste von Referenzsätzen, Prüfung der Kopien, klassifizierte Ergebnisse, der Vergleich mit Referenzdateien und das Tor. Nicht geschrieben: der Fallreduzierer und die Invariantentests. |
 | Anforderungen | 🟠 | 4 von 6 Anforderungen sind im Prototypstand, 2 sind nur geplant und keine ist validiert. |
 
 ## 🎯 Überblick
 
-* **Was es gibt:** eine Bibliothek und eine Kommandozeile, ohne Fenster. Sie schreiben und prüfen das `SHA256SUMS`-Manifest eines Referenzsatzes gegen redundante Kopien, lesen Ergebnisdateien, in denen jeder Fehler eine von drei Klassen trägt, und vergleichen einen Lauf mit einer Ausgangsbasis: Die gemessene Rate jeder Stufe darf nicht sinken. Berichte zeigen nur Hashes, Stufen, Klassen und Zahlen.
-* **Geplant:** der Vergleich mit Referenzdateien, der Fallreduzierer, benannte Tests für die Invarianten des Entwurfsmodells und, wo es passt, eine Art Server-Aufgabe. Nichts davon existiert bisher.
+* **Was es gibt:** eine Bibliothek und eine Kommandozeile, ohne Fenster. Sie schreiben und prüfen das `SHA256SUMS`-Manifest eines Referenzsatzes gegen redundante Kopien, lesen Ergebnisdateien, in denen jeder Fehler eine von drei Klassen trägt, und vergleichen einen Lauf mit einer Ausgangsbasis: Die gemessene Rate jeder Stufe darf nicht sinken. Berichte zeigen nur Hashes, Stufen, Klassen und Zahlen. Der Befehl `oracle` vergleicht Prüfung für Prüfung eine Datei mit beobachteten Werten mit einer Referenzdatei und schreibt die Ergebnisdatei.
+* **Geplant:** der Fallreduzierer, benannte Tests für die Invarianten des Entwurfsmodells und, wo es passt, eine Art Server-Aufgabe. Nichts davon existiert bisher.
 
 ## 🧩 Rolle in EH3D
 
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Tests
 
-Der Code hat 206 Tests (`cargo test`), die Basis hat 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); alle bestehen auf einem Rechner. Die CI führt die Repository-Prüfung, die Prüfung der Bilder, die Tests der Basis und für den Rust-Code die Formatprüfung, clippy mit Warnungen als Fehlern und die Tests unter Linux und Windows aus.
+Der Code hat 207 Tests (`cargo test`), die Basis hat 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); alle bestehen auf einem Rechner. Die CI führt die Repository-Prüfung, die Prüfung der Bilder, die Tests der Basis und für den Rust-Code die Formatprüfung, clippy mit Warnungen als Fehlern und die Tests unter Linux und Windows aus.
 
 ## 🏗️ Build und Veröffentlichung
 
@@ -133,11 +133,11 @@ EH3D-VALIDATION-LAB/
 
 * Früher Code: Er lief nur mit Daten seiner eigenen Tests, nie mit einem echten Korpus oder einem echten Referenzsatz.
 * Er prüft, dass Kopien dieselben Bytes enthalten; sie auf verschiedene Datenträger zu legen, ist Sache des Eigentümers.
-* Der Vergleich mit Referenzdateien, der Fallreduzierer und die Invariantentests sind nicht geschrieben.
+* Der Fallreduzierer und die Invariantentests sind nicht geschrieben.
 
 **Als Nächstes**
 
-* Den Vergleich mit Referenzdateien und die Invariantentests schreiben, sobald die Verträge angenommen sind, von denen dieses Projekt abhängt (siehe `docs/DEPENDENCIES.md`).
+* Die Invariantentests schreiben, sobald die Verträge angenommen sind, von denen dieses Projekt abhängt (siehe `docs/DEPENDENCIES.md`).
 
 ## 🌍 Sprachen
 
