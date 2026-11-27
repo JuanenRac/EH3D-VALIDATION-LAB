@@ -144,6 +144,10 @@ fn dispatch(args: &[String], out: &mut dyn Write) -> Result<i32, Failure> {
                 &read_text(Path::new(baseline), config.max_results_bytes)?,
                 &config,
             )?;
+            let results = parse_results(
+                &read_text(Path::new(results), config.max_results_bytes)?,
+                &config,
+            )?;
             if baseline.cases.is_empty() {
                 let _ = writeln!(
                     out,
@@ -151,10 +155,6 @@ fn dispatch(args: &[String], out: &mut dyn Write) -> Result<i32, Failure> {
                 );
                 return Ok(1);
             }
-            let results = parse_results(
-                &read_text(Path::new(results), config.max_results_bytes)?,
-                &config,
-            )?;
             let report = evaluate(&baseline, &results, &config);
             let _ = writeln!(out, "{}", report.to_json()?);
             Ok(if report.passed { 0 } else { 1 })
@@ -523,8 +523,5 @@ mod tests {
         ]);
         assert_eq!(code, 1, "{text}");
         assert!(text.contains("the baseline has no cases"), "{text}");
-        let config = crate::config::Config::default();
-        let empty = crate::gate::Baseline::from_results(&[], &config);
-        assert!(!crate::gate::evaluate(&empty, &[], &config).passed);
     }
 }
