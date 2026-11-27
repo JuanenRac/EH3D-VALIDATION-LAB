@@ -148,6 +148,13 @@ fn dispatch(args: &[String], out: &mut dyn Write) -> Result<i32, Failure> {
                 &read_text(Path::new(results), config.max_results_bytes)?,
                 &config,
             )?;
+            if baseline.cases.is_empty() {
+                let _ = writeln!(
+                    out,
+                    "# refused: the baseline has no cases, so every run would pass it"
+                );
+                return Ok(1);
+            }
             let report = evaluate(&baseline, &results, &config);
             let _ = writeln!(out, "{}", report.to_json()?);
             Ok(if report.passed { 0 } else { 1 })
@@ -176,6 +183,13 @@ fn verify_command(rest: &[String], config: &Config, out: &mut dyn Write) -> Resu
         &read_text(Path::new(manifest_path), config.max_manifest_bytes)?,
         config,
     )?;
+    if manifest.is_empty() {
+        let _ = writeln!(
+            out,
+            "# refused: the manifest lists no file, so nothing was verified"
+        );
+        return Ok(1);
+    }
     let roots: Vec<PathBuf> = copies.iter().map(PathBuf::from).collect();
     let report = verify_copies(&manifest, &roots, config)?;
     let name = |path: &str| {
@@ -474,5 +488,40 @@ mod tests {
             call(&["oracle", golden.to_str().unwrap(), bad.to_str().unwrap()]).0,
             2
         );
+    }
+
+    #[test]
+    fn an_empty_manifest_and_an_empty_baseline_pass_nothing() {
+        let work = tempfile::tempdir().unwrap();
+        let manifest = work.path().join("SUMS");
+        let baseline = work.path().join("base.json");
+        let results = work.path().join("run.tsv");
+        let (one, two) = (work.path().join("one"), work.path().join("two"));
+        std::fs::write(&manifest, "").unwrap();
+        std::fs::write(&baseline, r#"{"version":1,"cases":[]}"#).unwrap();
+        std::fs::write(&results, "a\tL1\tfail:phoenix-error\n").unwrap();
+        std::fs::create_dir(&one).unwrap();
+        std::fs::create_dir(&two).unwrap();
+        let run = |args: &[&str]| {
+            let args: Vec<String> = args.iter().map(|a| a.to_string()).collect();
+            let (mut out, mut err) = (Vec::new(), Vec::new());
+            let code = crate::cli::run(&args, &mut out, &mut err);
+            (code, String::from_utf8(out).unwrap())
+        };
+        let (code, text) = run(&[
+            "verify",
+            manifest.to_str().unwrap(),
+            one.to_str().unwrap(),
+            two.to_str().unwrap(),
+        ]);
+        assert_eq!(code, 1, "{text}");
+        assert!(text.contains("nothing was verified"), "{text}");
+        let (code, text) = run(&[
+            "gate",
+            baseline.to_str().unwrap(),
+            results.to_str().unwrap(),
+        ]);
+        assert_eq!(code, 1, "{text}");
+        assert!(text.contains("the baseline has no cases"), "{text}");
     }
 }

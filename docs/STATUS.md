@@ -20,7 +20,7 @@ The official state of each capability is in `REQUIREMENTS.md`. The register has 
 
 ## Known technical debt and omitted tests
 
-* 204 tests of the Rust code (nine of them keep this register true) and the 3 of the base; the Rust tests build their own folders and results and never touch a real project.
+* 205 tests of the Rust code (nine of them keep this register true) and the 3 of the base; the Rust tests build their own folders and results and never touch a real project.
 * Nine of the tests run the simulated laboratory (`src/lib.rs`).
 * Not tested: very large golden sets (millions of files), folders synchronised by a cloud service, copies on removable media that disappear during a run, and links inside a golden set (they are refused, which is tested).
 * `cargo deny` is not run yet.

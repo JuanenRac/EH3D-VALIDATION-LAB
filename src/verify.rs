@@ -53,7 +53,11 @@ pub struct VerifyReport {
 impl VerifyReport {
     /// True when enough copies were given and every one of them is clean.
     pub fn is_redundant_and_clean(&self, config: &Config) -> bool {
-        self.copies.len() >= config.min_copies && self.copies.iter().all(|c| c.is_clean(config))
+        self.copies.len() >= config.min_copies
+            && self
+                .copies
+                .iter()
+                .all(|c| !c.entries.is_empty() && c.is_clean(config))
     }
 }
 
