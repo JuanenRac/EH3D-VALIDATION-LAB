@@ -19,7 +19,7 @@
 
 ---
 
-**Comprobación de honestidad - lo que se ejecuta hoy:** una pequeña biblioteca de Rust con línea de comandos que escribe y verifica el manifiesto de sumas de control de un juego dorado contra copias redundantes, lee ficheros de resultados en los que todo fallo debe llevar una clase, y compara una ejecución con una línea base mediante una puerta. Tiene 206 pruebas propias y pasan en un ordenador. Solo se ha usado con datos creados por sus propias pruebas: nunca con un corpus real ni con un juego dorado real. No lee ningún archivo de diseño, no ejecuta ninguna herramienta de referencia y todavía no compara la salida de ninguna herramienta de diseño. El reductor de casos, las pruebas de invariantes y la comparación con archivos dorados no existen.
+**Comprobación de honestidad - lo que se ejecuta hoy:** una pequeña biblioteca de Rust con línea de comandos que escribe y verifica el manifiesto de sumas de control de un juego dorado contra copias redundantes, lee ficheros de resultados en los que todo fallo debe llevar una clase, y compara una ejecución con una línea base mediante una puerta. Tiene 207 pruebas propias y pasan en un ordenador. Solo se ha usado con datos creados por sus propias pruebas: nunca con un corpus real ni con un juego dorado real. No lee ningún archivo de diseño, no ejecuta ninguna herramienta de referencia y todavía no recoge por sí mismo la salida de ninguna herramienta de diseño. La comparación con archivos dorados (`oracle`) compara, comprobación a comprobación, los valores escritos en un archivo dorado y en un archivo observado. El reductor de casos y las pruebas de invariantes no existen.
 
 ---
 
@@ -46,15 +46,15 @@ Cada línea es una parte de este repositorio y la luz dice hasta dónde llega ho
 | Área | Estado | Qué significa aquí |
 |---|---|---|
 | Comprobaciones del repositorio | 🟡 | La comprobación del repositorio, la de las imágenes y las 3 pruebas de la base se ejecutan en el CI y pasan. |
-| Pruebas | 🟡 | Las 206 pruebas del código Rust y las 3 de la base pasan en un ordenador. Usan solo datos creados por las propias pruebas; ninguna se ha ejecutado con un corpus real. Incluyen un conjunto de referencia simulado cuyas copias fallan a propósito (un bit cambiado, un archivo ausente, un archivo de más, una carpeta en lugar de un archivo) y una herramienta simulada que empeora, pierde casos o devuelve resultados cortados. |
+| Pruebas | 🟡 | Las 207 pruebas del código Rust y las 3 de la base pasan en un ordenador. Usan solo datos creados por las propias pruebas; ninguna se ha ejecutado con un corpus real. Incluyen un conjunto de referencia simulado cuyas copias fallan a propósito (un bit cambiado, un archivo ausente, un archivo de más, una carpeta en lugar de un archivo) y una herramienta simulada que empeora, pierde casos o devuelve resultados cortados. |
 | Hardware real | 🟠 | No se ha ejecutado en ninguna máquina ni placa: nada de aquí se ha probado en hardware. |
-| Función planificada | 🟠 | Escrito: manifiestos de juegos dorados, verificación de copias, resultados clasificados y la puerta. Sin escribir: la comparación con archivos dorados, el reductor de casos y las pruebas de invariantes. |
+| Función planificada | 🟠 | Escrito: manifiestos de juegos dorados, verificación de copias, resultados clasificados, la comparación con archivos dorados y la puerta. Sin escribir: el reductor de casos y las pruebas de invariantes. |
 | Requisitos | 🟠 | 4 de 6 requisitos están en prototipo, 2 solo están planificados y ninguno está validado. |
 
 ## 🎯 Resumen
 
-* **Lo que existe:** una biblioteca y una línea de comandos, sin ventana. Escriben y verifican el manifiesto `SHA256SUMS` de un juego dorado contra copias redundantes, leen ficheros de resultados donde todo fallo lleva una de tres clases, y comparan una ejecución con una línea base: la tasa medida de cada nivel no puede bajar. Los informes muestran solo hashes, niveles, clases y recuentos.
-* **Planificado:** la comparación con archivos dorados, el reductor de casos, las pruebas con nombre de los invariantes del modelo de diseño y, cuando proceda, un tipo de tarea del servidor. Nada de esto existe todavía.
+* **Lo que existe:** una biblioteca y una línea de comandos, sin ventana. Escriben y verifican el manifiesto `SHA256SUMS` de un juego dorado contra copias redundantes, leen ficheros de resultados donde todo fallo lleva una de tres clases, y comparan una ejecución con una línea base: la tasa medida de cada nivel no puede bajar. Los informes muestran solo hashes, niveles, clases y recuentos. La orden `oracle` compara, comprobación a comprobación, un archivo observado con un archivo dorado y escribe el fichero de resultados.
+* **Planificado:** el reductor de casos, las pruebas con nombre de los invariantes del modelo de diseño y, cuando proceda, un tipo de tarea del servidor. Nada de esto existe todavía.
 
 ## 🧩 Papel en EH3D
 
@@ -84,7 +84,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Pruebas
 
-El código tiene 206 pruebas (`cargo test`) y la base tiene 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); todas pasan en un ordenador. El CI ejecuta la comprobación del repositorio, la de las imágenes, las pruebas de la base y, para el código Rust, la comprobación de formato, clippy con las advertencias como errores y las pruebas en Linux y Windows.
+El código tiene 207 pruebas (`cargo test`) y la base tiene 3 (`python -I -m unittest discover -s tools -p "test_*.py"`); todas pasan en un ordenador. El CI ejecuta la comprobación del repositorio, la de las imágenes, las pruebas de la base y, para el código Rust, la comprobación de formato, clippy con las advertencias como errores y las pruebas en Linux y Windows.
 
 ## 🏗️ Compilación y publicación
 
@@ -133,11 +133,11 @@ EH3D-VALIDATION-LAB/
 
 * Código inicial: solo se ha ejecutado con datos creados por sus propias pruebas, nunca con un corpus real ni con un juego dorado real.
 * Comprueba que las copias contienen los mismos bytes; ponerlas en soportes distintos corresponde al propietario.
-* La comparación con archivos dorados, el reductor de casos y las pruebas de invariantes no están escritos.
+* El reductor de casos y las pruebas de invariantes no están escritos.
 
 **Siguiente**
 
-* Escribir la comparación con archivos dorados y las pruebas de invariantes cuando se acepten los contratos de los que depende este proyecto (véase `docs/DEPENDENCIES.md`).
+* Escribir las pruebas de invariantes cuando se acepten los contratos de los que depende este proyecto (véase `docs/DEPENDENCIES.md`).
 
 ## 🌍 Idiomas
 

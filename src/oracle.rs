@@ -10,6 +10,9 @@
 //! is an error of the tool, a limitation of the format or an error in the file. A check that the golden file has and the observed file lacks is a failure of the tool
 //! (`phoenix-error`) unless the observed file says otherwise with a line whose value is `-` and a class.
 //!
+//! The name of a case is printed in the results file that `baseline` and `gate` read, so a name with a control character (a lone carriage return, an escape) or a line
+//! separator is refused in both files.
+//!
 //! The result is the list of [`CaseResult`] that the gate already understands: a case passes a level when every golden check of that level agrees.
 //! The originals of a golden set are never opened for writing here: the module reads text that the caller already has.
 
@@ -56,6 +59,12 @@ fn parse_lines(text: &str, config: &Config, observed: bool) -> Result<Vec<Line>,
         let max = if observed { 4 } else { 3 };
         if parts.len() < 3 || parts.len() > max || parts[0].is_empty() {
             return Err(LabError::OracleSyntax { line });
+        }
+        if parts[0]
+            .chars()
+            .any(|c| c.is_control() || matches!(c, '\u{2028}' | '\u{2029}'))
+        {
+            return Err(LabError::ControlInName { line });
         }
         let (level_text, name) = parts[1]
             .split_once(':')
@@ -230,6 +239,22 @@ mod tests {
         assert_eq!(r.len(), 1);
         assert_eq!(r[0].outcome, Outcome::Fail(FailureClass::PhoenixError));
         assert_eq!(s.extra, 1);
+    }
+
+    #[test]
+    fn a_case_name_with_a_control_character_is_refused() {
+        let config = Config::default();
+        for name in ["a\rb", "a\u{1b}[2Kb", "a\u{7}", "a\u{85}b", "a\u{2028}b"] {
+            let text = format!("a\tL1:x\t1\n{name}\tL1:x\t1\n");
+            for result in [compare(&text, "", &config), compare("", &text, &config)] {
+                assert!(
+                    matches!(result, Err(LabError::ControlInName { line: 2 })),
+                    "{name:?}"
+                );
+            }
+        }
+        // the end of a line written by Windows is not part of the name or of the value
+        assert!(compare("a\tL1:x\t1\r\n", "a\tL1:x\t1\r\n", &config).is_ok());
     }
 
     #[test]
