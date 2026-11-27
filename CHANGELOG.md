@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.0.5] - No pass without checks and output stays on one line
+
 - **An empty manifest verifies nothing:** `verify` printed PASS for a `SHA256SUMS` that lists no file. It is now refused.
 - **An empty baseline passes nothing:** `gate` let every run pass against a baseline without cases. It is now refused.
 - **1 more test** of the Rust code, for the above.
