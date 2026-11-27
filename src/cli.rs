@@ -43,6 +43,20 @@ fn read_text(path: &Path, limit: u64) -> Result<String, LabError> {
     fs::read_to_string(path).map_err(io)
 }
 
+/// A text from an input file, fit to print on one line: control characters and the Unicode line and paragraph separators become spaces.
+/// Only what is printed goes through here; what is compared or hashed does not.
+fn one_line(text: &str) -> String {
+    text.chars()
+        .map(|c| {
+            if c.is_control() || matches!(c, '\u{2028}' | '\u{2029}') {
+                ' '
+            } else {
+                c
+            }
+        })
+        .collect()
+}
+
 /// Run the command line with the given arguments (without the program name). Returns the exit code.
 pub fn run(args: &[String], out: &mut dyn Write, err: &mut dyn Write) -> i32 {
     match dispatch(args, out) {
@@ -52,7 +66,7 @@ pub fn run(args: &[String], out: &mut dyn Write, err: &mut dyn Write) -> i32 {
             2
         }
         Err(Failure::Lab(error)) => {
-            let _ = writeln!(err, "error: {error}");
+            let _ = writeln!(err, "error: {}", one_line(&error.to_string()));
             2
         }
     }
@@ -194,7 +208,7 @@ fn verify_command(rest: &[String], config: &Config, out: &mut dyn Write) -> Resu
     let report = verify_copies(&manifest, &roots, config)?;
     let name = |path: &str| {
         if show_paths {
-            path.to_string()
+            one_line(path)
         } else {
             opaque_id(&config.report_salt, path)
         }
@@ -523,5 +537,51 @@ mod tests {
         ]);
         assert_eq!(code, 1, "{text}");
         assert!(text.contains("the baseline has no cases"), "{text}");
+    }
+
+    #[test]
+    fn names_read_from_the_input_cannot_start_a_line_of_their_own() {
+        let work = tempfile::tempdir().unwrap();
+        let file = |name: &str, text: &str| {
+            let path = work.path().join(name);
+            std::fs::write(&path, text).unwrap();
+            path.to_string_lossy().into_owned()
+        };
+        let call = |list: &[&str]| {
+            let args: Vec<String> = list.iter().map(|s| s.to_string()).collect();
+            let (mut out, mut err) = (Vec::new(), Vec::new());
+            let code = run(&args, &mut out, &mut err);
+            let out = String::from_utf8(out).unwrap();
+            let err = String::from_utf8(err).unwrap();
+            for c in out.chars().chain(err.chars()) {
+                assert!(
+                    c == '\n' || !(c.is_control() || c == '\u{2028}' || c == '\u{2029}'),
+                    "{c:?} in {out}{err}"
+                );
+            }
+            (code, out, err)
+        };
+        let settings = file("c.cfg", "ke\u{1b}forged = 1\n");
+        let folder = work.path().to_string_lossy().into_owned();
+        let (code, _, err) = call(&["--config", &settings, "manifest", &folder]);
+        assert_eq!(code, 2, "{err}");
+        assert_eq!(err.lines().count(), 1, "{err}");
+        assert!(err.contains("forged"), "{err}");
+        // Windows does not allow such a file name, so the listing of extra files is tried where it can exist.
+        #[cfg(unix)]
+        {
+            let copy = work.path().join("copy");
+            std::fs::create_dir(&copy).unwrap();
+            std::fs::write(copy.join("a.txt"), b"1234").unwrap();
+            std::fs::write(copy.join("b\nPASS forged"), b"x").unwrap();
+            let manifest = file(
+                "SHA256SUMS",
+                "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4  a.txt\n",
+            );
+            let copy = copy.to_string_lossy().into_owned();
+            let (code, out, _) = call(&["verify", "--show-paths", &manifest, &copy]);
+            assert_eq!(code, 1, "{out}");
+            assert!(out.contains("Extra b PASS forged"), "{out}");
+        }
     }
 }

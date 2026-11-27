@@ -7,6 +7,8 @@ All notable changes to this project are documented here.
 - **An empty manifest verifies nothing:** `verify` printed PASS for a `SHA256SUMS` that lists no file. It is now refused.
 - **An empty baseline passes nothing:** `gate` let every run pass against a baseline without cases. It is now refused.
 - **1 more test** of the Rust code, for the above.
+- **A name read from a file can no longer forge a line of the output:** line breaks and control characters in the paths of `verify --show-paths` and the error messages are printed as spaces. What is compared, hashed and the exit codes do not change.
+- **1 more test** of the Rust code, for the above.
 
 ## [0.0.4] - Simulated laboratory, requirement register and many more tests
 
