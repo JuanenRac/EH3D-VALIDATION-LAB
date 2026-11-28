@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.0.6] - Case names with control characters are refused
+
 - **A case name with a control character is refused by `oracle`:** the names are printed in the results file that `baseline` reads; a golden or observed file whose case name holds a lone carriage return, an escape, another control character or a line separator is refused with its line number.
 - **1 new test** of the Rust code, for the above.
 - **The README files say that the comparison with golden files exists** (the `oracle` command); the case reducer and the invariant tests are still not written.
